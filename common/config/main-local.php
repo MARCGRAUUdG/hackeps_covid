@@ -12,7 +12,7 @@ $db = [
 
 if ($databaseUrl)
 {
-    $db['dsn'] = 'pgsql:host=' . parse_url($databaseUrl, PHP_URL_HOST) . ';port=' . parse_url($databaseUrl, PHP_URL_PORT) . ';dbname=' . parse_url($databaseUrl, PHP_URL_PATH);
+    $db['dsn'] = 'pgsql:host=' . parse_url($databaseUrl, PHP_URL_HOST) . ';port=' . parse_url($databaseUrl, PHP_URL_PORT) . ';dbname=' . substr(parse_url($databaseUrl, PHP_URL_PATH), 1);
     $db['username'] = parse_url($databaseUrl, PHP_URL_USER);
     $db['password'] = parse_url($databaseUrl, PHP_URL_PASS);
 }
