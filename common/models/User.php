@@ -37,6 +37,12 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_EXPERT = 1;
     const ROLE_ADMIN = 2;
 
+    const ROLE = [
+        self::ROLE_USER => 'Usuario',
+        self::ROLE_EXPERT => 'Experto',
+        self::ROLE_ADMIN => 'Administrador',
+    ];
+
 
     /**
      * {@inheritdoc}

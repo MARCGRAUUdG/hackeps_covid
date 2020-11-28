@@ -25,14 +25,14 @@ use yii\helpers\Html;
             <?php else: ?>
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                     <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" class="user-image img-circle elevation-2" alt="User Image">
-                    <span class="d-none d-md-inline"><?= Yii::$app->user->identity->username ?></span>
+                    <span class="d-none d-md-inline"><?= Yii::$app->user->identity->name ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
                     <li class="user-header bg-primary">
                         <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" class="img-circle elevation-2" alt="User Image">
-                        <p><?= Yii::$app->user->identity->username ?></p>
-                        <p><?= Yii::$app->user->identity->role ?></p>
+                        <p><?= Yii::$app->user->identity->name ?></p>
+                        <small><?= \common\models\User::ROLE[Yii::$app->user->identity->role] ?></small>
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">

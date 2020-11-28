@@ -8,9 +8,9 @@ use yii\bootstrap4\Breadcrumbs;
     <section class="content-header">
         <div class="container-fluid">
             <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
-                <?= \hail812\adminlte3\widgets\Alert::widget([
+                <?= \frontend\widgets\CustomAlert::widget([
                     'type' => $type,
-                    'title' => $message,
+                    'body' => $message,
                 ]) ?>
             <?php endforeach ?>
 

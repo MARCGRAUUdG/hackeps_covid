@@ -48,7 +48,7 @@ class SignupForm extends Model
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
 
             ['phone', 'trim'],
-            ['phone', 'match', 'pattern' => '/(\+34|0034|34)?[ -]*(6|7|8|9)[ -]*([0-9][ -]*){8}/gmi'],
+            ['phone', 'match', 'pattern' => '/(\+34|0034|34)?[ -]*(6|7|8|9)[ -]*([0-9][ -]*){8}/mi'],
             ['phone', 'filter', 'filter' => function($phone) {
                 return preg_replace('/[^0-9]/mi', '', $phone);
             }, 'skipOnArray' => true],

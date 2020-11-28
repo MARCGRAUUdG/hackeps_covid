@@ -45,6 +45,12 @@ return [
                 'contacto' => 'site/contact',
                 'registrar' => 'site/signup',
                 'recuperar' => 'site/request-password-reset',
+                'faq' => 'site/faq',
+                'consultas' => 'site/quotes',
+                'consultas/<id:\d+>' => 'site/quote',
+                'POST consultas/<id:\d+>/mensaje' => 'site/quote-message',
+                'POST consultas/<id:\d+>/estado' => 'site/quote-status',
+
                 '<action>' => 'site/<action>',
                 /*'<controller:[\w\-]+>/<id:\d+>' => '<controller>/view',
                 '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<controller>/<action>',
@@ -55,7 +61,17 @@ return [
                     'prefix' => 'admin',
                     'rules' => [
                         'contacto' => 'contact/index',
+                        'contacto/<id:\d+>' => 'contact/view',
                         'POST contacto/borrar/<id:\d+>' => 'contact/delete',
+
+                        'faq' => 'faq/index',
+                        'faq/crear' => 'faq/create',
+                        'POST faq/categoria' => 'faq/create-category',
+                        'faq/editar/<id:\d+>' => 'faq/update',
+                        'POST faq/borrar/<id:\d+>' => 'faq/delete',
+
+                        'consultas' => 'quote/index',
+                        'consultas/<id:\d+>' => 'quote/view',
                     ]
                 ]
             ],
