@@ -17,6 +17,8 @@ use yii\web\IdentityInterface;
  * @property string $verification_token
  * @property string $email
  * @property string $name
+ * @property integer $infected
+ * @property integer $province
  * @property integer $phone
  * @property string $auth_key
  * @property integer $status
@@ -154,6 +156,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function getId()
     {
         return $this->getPrimaryKey();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInfectedList()
+    {
+        return ['Confirmat' => 1, 'Mort' => 2, 'Recuperado' => 3];
     }
 
     /**
