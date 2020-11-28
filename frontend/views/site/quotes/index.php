@@ -78,8 +78,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'class' => 'yii\grid\ActionColumn',
                                 'template' => '{view}',
                                 'buttons' => [
-                                    'view' => function ($url, $model, $key) {
-                                        return Html::a('<i class="fas fa-eye"></i>', "/consultas/{$model->id}");
+                                    'view' => function ($url, $model, $key) use ($role) {
+                                        return Html::a('<i class="fas fa-eye"></i>', ($role == User::ROLE_ADMIN ? '/admin' : '') . "/consultas/{$model->id}");
                                     },
                                 ],
                             ],

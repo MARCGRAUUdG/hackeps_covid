@@ -69,6 +69,9 @@ return [
                         'POST faq/categoria' => 'faq/create-category',
                         'faq/editar/<id:\d+>' => 'faq/update',
                         'POST faq/borrar/<id:\d+>' => 'faq/delete',
+
+                        'consultas' => 'quote/index',
+                        'consultas/<id:\d+>' => 'quote/view',
                     ]
                 ]
             ],
