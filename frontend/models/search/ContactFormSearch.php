@@ -42,7 +42,7 @@ class ContactFormSearch extends ContactForm
             $query->andWhere(['BETWEEN', 'created_at', $dateStart, $dateEnd]);
         }
 
-        $query->orderBy(['id' => SORT_DESC]);
+        $query->orderBy(['id' => SORT_ASC]);
 
 
         return $dataProvider;

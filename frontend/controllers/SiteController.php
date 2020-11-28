@@ -5,10 +5,13 @@ use common\models\HelperFunctions;
 use common\models\User;
 use frontend\assets\AppAsset;
 use frontend\models\ContactForm;
+use frontend\models\Faq;
+use frontend\models\FaqCategories;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -292,5 +295,25 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    public function actionFaq()
+    {
+        $categories = FaqCategories::find()->all();
+        $categories = ArrayHelper::map($categories, 'id', 'category');
+
+        $faqsDb = Faq::find()->all();
+        $faqs = [];
+
+        foreach ($faqsDb as $faq)
+        {
+            if (!isset($faq->id_category)) {
+                $faqs[$faq->id_category] = [];
+            }
+
+            $faqs[$faq->id_category][] = $faq;
+        }
+
+        return $this->render('faq', compact('faqs', 'categories'));
     }
 }
