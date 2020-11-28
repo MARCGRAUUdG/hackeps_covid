@@ -24,7 +24,7 @@ use yii\helpers\Html;
                     <a href="#" class="dropdown-item">
                         <!-- Message Start -->
                         <div class="media">
-                            <img src="<?=$assetDir?>/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                            <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     Brad Diesel
@@ -40,7 +40,7 @@ use yii\helpers\Html;
                     <a href="#" class="dropdown-item">
                         <!-- Message Start -->
                         <div class="media">
-                            <img src="<?=$assetDir?>/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                            <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" alt="User Avatar" class="img-size-50 img-circle mr-3">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     John Pierce
@@ -56,7 +56,7 @@ use yii\helpers\Html;
                     <a href="#" class="dropdown-item">
                         <!-- Message Start -->
                         <div class="media">
-                            <img src="<?=$assetDir?>/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                            <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" alt="User Avatar" class="img-size-50 img-circle mr-3">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     Nora Silvester
@@ -106,22 +106,22 @@ use yii\helpers\Html;
         <li class="nav-item dropdown user-menu">
             <?php if (Yii::$app->user->isGuest): ?>
                 <a href="/login" class="btn btn-default btn-flat">Iniciar sesión</a>
-                <a href="/registrar" class="btn btn-default btn-flat">Crear cuenta</a>
+                <a href="/registrar" class="btn btn-primary btn-flat">Crear cuenta</a>
             <?php else: ?>
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">
+                    <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" class="user-image img-circle elevation-2" alt="User Image">
                     <span class="d-none d-md-inline"><?= Yii::$app->user->identity->username ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
                     <li class="user-header bg-primary">
-                        <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" class="img-circle elevation-2" alt="User Image">
                         <p><?= Yii::$app->user->identity->username ?></p>
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
-                        <?= Html::a('Sign out', ['/logout'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat float-right']) ?>
+                        <a href="/edit-profile" class="btn btn-default btn-flat">Perfil</a>
+                        <?= Html::a('Cerrar sesión', ['/logout'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat float-right']) ?>
                     </li>
                 </ul>
             <?php endif ?>
