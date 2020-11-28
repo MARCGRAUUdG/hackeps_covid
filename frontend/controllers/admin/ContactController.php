@@ -38,6 +38,17 @@ class ContactController extends Controller
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
+    public function actionView($id)
+    {
+        $contact = ContactForm::findOne(['id' => $id]);
+
+        if (empty($contact)) {
+            throw new NotFoundHttpException("Registro no encontrado");
+        }
+
+        return $this->render('view', compact('contact'));
+    }
+
     public function actionDelete($id)
     {
         $contact = ContactForm::findOne(['id' => $id]);

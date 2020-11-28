@@ -21,7 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'columns' => [
                             'id',
                             'name',
-                            'email',
+                            [
+                                'attribute' => 'email',
+                                'format' => 'raw',
+                                'value' => function($data) {
+                                    $link = "mailto:{$data->email}?subject=" . urlencode("Re: {$data->subject}");
+                                    return '<a href="' . $link . '" target="_blank">' . $data->email . '</a>';
+                                }
+                            ],
                             'subject',
                             [
                                 'attribute' => 'message',

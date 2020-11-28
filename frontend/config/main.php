@@ -55,6 +55,7 @@ return [
                     'prefix' => 'admin',
                     'rules' => [
                         'contacto' => 'contact/index',
+                        'contacto/<id:\d+>' => 'contact/view',
                         'POST contacto/borrar/<id:\d+>' => 'contact/delete',
                     ]
                 ]
