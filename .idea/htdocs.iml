@@ -2,6 +2,7 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/vendor/almasaeed2010/adminlte" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/behat/gherkin" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/bootstrap" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/inputmask" />
@@ -25,7 +26,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/ezyang/htmlpurifier" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fakerphp/faker" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hail812/yii2-adminlte3" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/npm-asset/bootstrap" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/version" />
@@ -77,6 +80,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-bootstrap4" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-debug" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-faker" />

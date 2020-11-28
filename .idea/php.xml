@@ -82,6 +82,10 @@
       <path value="$PROJECT_DIR$/vendor/bower-asset/bootstrap" />
       <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
       <path value="$PROJECT_DIR$/vendor/opis/closure" />
+      <path value="$PROJECT_DIR$/vendor/yiisoft/yii2-bootstrap4" />
+      <path value="$PROJECT_DIR$/vendor/almasaeed2010/adminlte" />
+      <path value="$PROJECT_DIR$/vendor/npm-asset/bootstrap" />
+      <path value="$PROJECT_DIR$/vendor/hail812/yii2-adminlte3" />
     </include_path>
   </component>
 </project>
