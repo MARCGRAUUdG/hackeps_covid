@@ -7,7 +7,10 @@ use frontend\assets\AppAsset;
 use frontend\models\ContactForm;
 use frontend\models\Faq;
 use frontend\models\FaqCategories;
+use frontend\models\Quote;
+use frontend\models\QuoteMessages;
 use frontend\models\ResendVerificationEmailForm;
+use frontend\models\search\QuoteSearch;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -21,6 +24,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactFormSearch;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -315,5 +319,108 @@ class SiteController extends Controller
         }
 
         return $this->render('faq', compact('faqs', 'categories'));
+    }
+
+    public function actionQuotes()
+    {
+        $searchModel = new QuoteSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 10;
+
+        return $this->render('quotes/index', compact('searchModel', 'dataProvider'));
+    }
+
+    public function actionQuote($id)
+    {
+        $role = Yii::$app->user->identity->role;
+
+        $quote = null;
+
+        if ($role == User::ROLE_EXPERT) {
+            $quote = Quote::findOne(['id' => $id, 'id_expert' => Yii::$app->user->id]);
+        }
+
+        else {
+            $quote = Quote::findOne(['id' => $id, 'id_user' => Yii::$app->user->id]);
+        }
+
+        if (empty($quote)) {
+            throw new NotFoundHttpException("No se ha podido encontrar la consulta");
+        }
+
+        $messages = $quote->getMessages()->orderBy(['created_at' => SORT_DESC])->all();
+        $newMessage = new QuoteMessages(['id_quote' => $id, 'id_user' => Yii::$app->user->id]);
+
+        return $this->render('quotes/view', compact('quote', 'messages', 'newMessage'));
+    }
+
+    public function actionQuoteMessage($id)
+    {
+        $role = Yii::$app->user->identity->role;
+
+        $quote = null;
+
+        if ($role == User::ROLE_EXPERT) {
+            $quote = Quote::findOne(['id' => $id, 'id_expert' => Yii::$app->user->id]);
+        }
+
+        else {
+            $quote = Quote::findOne(['id' => $id, 'id_user' => Yii::$app->user->id]);
+        }
+
+        if (empty($quote) || $quote->status >= Quote::STATUS_SOLVED) {
+            throw new NotFoundHttpException("No se ha podido encontrar la consulta");
+        }
+
+        $message = trim(Yii::$app->request->post('QuoteMessages', null)['message'] ?? null);
+
+        if (empty($message))
+        {
+            Yii::$app->session->setFlash('danger', 'No se ha especificado un mensaje');
+            return $this->redirect("/consultas/{$id}");
+        }
+
+        $newMessage = new QuoteMessages(['id_quote' => $id, 'id_user' => Yii::$app->user->id]);
+        $newMessage->message = strip_tags($message, '<p><br>');
+        $newMessage->created_at = time();
+        $newMessage->save();
+
+        Yii::$app->session->setFlash('success', 'Mensaje guardado correctamente');
+
+        return $this->redirect("/consultas/{$id}");
+    }
+
+    public function actionQuoteStatus($id)
+    {
+        $role = Yii::$app->user->identity->role;
+
+        $quote = null;
+
+        if ($role == User::ROLE_EXPERT) {
+            $quote = Quote::findOne(['id' => $id, 'id_expert' => Yii::$app->user->id]);
+        }
+
+        else if ($role == User::ROLE_ADMIN) {
+            $quote = Quote::findOne(['id' => $id]);
+        }
+
+        if (empty($quote)) {
+            throw new NotFoundHttpException("No se ha podido encontrar la consulta");
+        }
+
+        $status = Yii::$app->request->post('status', null);
+
+        if ($status != 0 && empty($status))
+        {
+            Yii::$app->session->setFlash('danger', 'No se ha especificado un estado');
+            return $this->redirect("/consultas/{$id}");
+        }
+
+        $quote->status = $status;
+        $quote->save();
+
+        Yii::$app->session->setFlash('success', 'Estado modificado correctamente');
+
+        return $this->redirect("/consultas/{$id}");
     }
 }

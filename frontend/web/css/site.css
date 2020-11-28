@@ -130,3 +130,7 @@ a.asc:after {
 a.desc:after {
     content: "↑";
 }
+
+.badge.badge-default {
+    background-color: #adb5bd !important;
+}

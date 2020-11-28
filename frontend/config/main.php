@@ -46,6 +46,11 @@ return [
                 'registrar' => 'site/signup',
                 'recuperar' => 'site/request-password-reset',
                 'faq' => 'site/faq',
+                'consultas' => 'site/quotes',
+                'consultas/<id:\d+>' => 'site/quote',
+                'POST consultas/<id:\d+>/mensaje' => 'site/quote-message',
+                'POST consultas/<id:\d+>/estado' => 'site/quote-status',
+
                 '<action>' => 'site/<action>',
                 /*'<controller:[\w\-]+>/<id:\d+>' => '<controller>/view',
                 '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<controller>/<action>',
