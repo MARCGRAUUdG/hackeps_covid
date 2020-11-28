@@ -9,15 +9,15 @@ use yii\helpers\Html;
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        <li class="nav-item">
+            <a href="https://wa.me/34600802802/?text=<?= urlencode('¡Buenas! Querría hacer una consulta sobre la CoVID-19.') ?>" class="btn btn-success" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+        </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a href="https://wa.me/+34600802802" class="nav-link" target="_blank">
-                <i class="fab fa-whatsapp"></i> Whatsapp
-            </a>
-        </li>
         <?php if (!Yii::$app->user->isGuest): ?>
             <!-- Messages Dropdown Menu -->
             <li class="nav-item dropdown">
