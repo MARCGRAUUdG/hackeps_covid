@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <a href="/admin/faq/crear" class="btn btn-warning float-right" style="margin-bottom: 10px">Crear pregunta frecuente</a>
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
