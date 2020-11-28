@@ -106,7 +106,7 @@ use yii\helpers\Html;
         <li class="nav-item dropdown user-menu">
             <?php if (Yii::$app->user->isGuest): ?>
                 <a href="/login" class="btn btn-default btn-flat">Iniciar sesión</a>
-                <a href="/signup" class="btn btn-default btn-flat">Crear cuenta</a>
+                <a href="/registrar" class="btn btn-default btn-flat">Crear cuenta</a>
             <?php else: ?>
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                     <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">

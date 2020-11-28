@@ -42,6 +42,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'contacto' => 'site/contact',
+                'registrar' => 'site/signup',
+                'recuperar' => 'site/request-password-reset',
                 '<action>' => 'site/<action>',
                 /*'<controller:[\w\-]+>/<id:\d+>' => '<controller>/view',
                 '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<controller>/<action>',

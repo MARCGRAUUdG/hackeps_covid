@@ -41,6 +41,8 @@ $role = $authed ? (int)Yii::$app->user->identity->role : null;
                         'visible' => $role === User::ROLE_ADMIN,
                         'items' => [
                             ['label' => 'Estadísticas', 'url' => ['/admin/estadisticas'], 'icon' => 'tachometer-alt', 'iconStyle' => 'far fas'],
+                            ['label' => 'Usuarios', 'url' => ['/admin/usuarios'], 'icon' => 'user', 'iconStyle' => 'far fas'],
+                            ['label' => 'Expertos', 'url' => ['/admin/expertos'], 'icon' => 'user-md', 'iconStyle' => 'far fas'],
                             ['label' => 'Centros', 'url' => ['/admin/centros'], 'icon' => 'clinic-medical', 'iconStyle' => 'far fas'],
                             ['label' => 'Preguntas Frecuentes', 'url' => ['/admin/faq'], 'icon' => 'question-circle', 'iconStyle' => 'far fas'],
                         ]
