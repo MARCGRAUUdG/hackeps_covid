@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\HelperFunctions;
 use common\models\User;
 use frontend\assets\AppAsset;
+use frontend\models\ContactForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -158,7 +159,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $model = new ContactFormSearch();
+        $model = new ContactForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate())
         {
