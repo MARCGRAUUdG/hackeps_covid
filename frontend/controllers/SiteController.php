@@ -101,6 +101,16 @@ class SiteController extends Controller
     }
 
     /**
+     * Link to download the app
+     *
+     * @return mixed
+     */
+    public function actionMobileApp()
+    {
+        return $this->render('mobile-app');
+    }
+
+    /**
      * Logs out the current user.
      *
      * @return mixed
