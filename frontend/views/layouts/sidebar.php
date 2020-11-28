@@ -3,7 +3,7 @@
 use common\models\User;
 
 $authed = !Yii::$app->user->isGuest;
-$role = $authed ? Yii::$app->user->identity->role : null;
+$role = $authed ? (int)Yii::$app->user->identity->role : null;
 
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -28,14 +28,23 @@ $role = $authed ? Yii::$app->user->identity->role : null;
                         'icon' => 'syringe',
                         'items' => [
                             ['label' => 'Centros', 'url' => ['/pruebas/centros'], 'icon' => 'clinic-medical', 'iconStyle' => 'far fas'],
-                            ['label' => 'Mis pruebas', 'url' => ['/pruebas/mis'], 'icon' => 'notes-medical', 'iconStyle' => 'far fas', 'visible' => $authed && $role == User::ROLE_USER],
+                            ['label' => 'Mis pruebas', 'url' => ['/pruebas/mis'], 'icon' => 'notes-medical', 'iconStyle' => 'far fas', 'visible' => $role === User::ROLE_USER],
                         ]
                     ],
                     ['label' => 'Consultas', 'url' => ['/consultas'], 'icon' => 'user-md', 'visible' => $authed],
                     ['label' => 'Preguntas Frecuentes', 'url' => ['/faq'], 'icon' => 'question-circle'],
-                    ['label' => 'Contacto', 'url' => ['/faq'], 'icon' => 'envelope'],
+                    ['label' => 'Contacto', 'url' => ['/contacto'], 'icon' => 'envelope'],
                     ['label' => 'Aplicación', 'url' => ['/app'], 'icon' => 'mobile'],
-                    ['label' => 'Administración', 'icon' => 'cogs', 'visible' => $authed && $role == User::ROLE_ADMIN],
+                    [
+                        'label' => 'Administración',
+                        'icon' => 'cogs',
+                        'visible' => $role === User::ROLE_ADMIN,
+                        'items' => [
+                            ['label' => 'Estadísticas', 'url' => ['/admin/estadisticas'], 'icon' => 'tachometer-alt', 'iconStyle' => 'far fas'],
+                            ['label' => 'Centros', 'url' => ['/admin/centros'], 'icon' => 'clinic-medical', 'iconStyle' => 'far fas'],
+                            ['label' => 'Preguntas Frecuentes', 'url' => ['/admin/faq'], 'icon' => 'question-circle', 'iconStyle' => 'far fas'],
+                        ]
+                    ],
 
 
                     /*['label' => 'Yii2 PROVIDED', 'header' => true],

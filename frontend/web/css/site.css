@@ -118,3 +118,7 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.form-group.has-error .form-control {
+    border-color: #dc3545;
+}

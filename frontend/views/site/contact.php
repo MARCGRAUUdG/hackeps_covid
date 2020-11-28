@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'subject') ?>
 
-                <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
+                <?= $form->field($model, 'message')->textarea(['rows' => 6]) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Enviar', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
