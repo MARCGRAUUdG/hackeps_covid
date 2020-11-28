@@ -32,7 +32,7 @@ use yii\helpers\Html;
                     <li class="user-header bg-primary">
                         <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" class="img-circle elevation-2" alt="User Image">
                         <p><?= Yii::$app->user->identity->name ?></p>
-                        <p><?= \common\models\User::ROLE[Yii::$app->user->identity->role] ?></p>
+                        <small><?= \common\models\User::ROLE[Yii::$app->user->identity->role] ?></small>
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
