@@ -1,4 +1,7 @@
 <?php
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+
 $this->title = 'Perfil';
 ?>
 <body class="hold-transition sidebar-mini">
@@ -12,7 +15,7 @@ $this->title = 'Perfil';
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="/img/user2-160x160.jpg"
+                                     src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3"
                                      alt="User profile picture">
                             </div>
 
@@ -22,17 +25,15 @@ $this->title = 'Perfil';
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
-                                    <b>Followers</b> <a class="float-right">1,322</a>
+                                    <b>Nombre</b> <a class="float-right"><?= $model->name?></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Following</b> <a class="float-right">543</a>
+                                    <b>Telefono mobil</b> <a class="float-right"><?= $model->phone?></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Friends</b> <a class="float-right">13,287</a>
+                                    <b>Email</b> <a class="float-right"><?= $model->email?></a>
                                 </li>
                             </ul>
-
-                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -46,7 +47,23 @@ $this->title = 'Perfil';
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
+                                <?php $form = ActiveForm::begin(['id' => 'profile-form']); ?>
+                                <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item">
+                                        <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <?= $form->field($model, 'phone') ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <?= $form->field($model, 'email') ?>
+                                    </li>
+                                </ul>
 
+                                <div class="form-group">
+                                    <?= Html::submitButton('Actualizar perfil', ['class' => 'btn btn-primary', 'name' => 'profile-button']) ?>
+                                </div>
+                                <?php ActiveForm::end();?>
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->

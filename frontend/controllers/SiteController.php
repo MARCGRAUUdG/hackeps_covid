@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\HelperFunctions;
+use common\models\User;
+use frontend\assets\AppAsset;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -114,7 +116,28 @@ class SiteController extends Controller
      */
     public function actionEditProfile()
     {
-        return $this->render('edit-profile');
+        $model = Yii::$app->user->identity;
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $model->name = Yii::$app->request->post('User')['name'];
+            $model->phone = Yii::$app->request->post('User')['phone'];
+            $model->email = Yii::$app->request->post('User')['email'];
+
+            if ($model->validate())
+            {
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Perfil actulizado con éxito!');
+                }
+
+                else {
+                    Yii::$app->session->setFlash('error', 'Error con los datos introducidos: ' . HelperFunctions::errors($model));
+                }
+
+                return $this->refresh();
+            }
+        }
+        return $this->render('edit-profile',['model' => $model]);
     }
 
     /**
