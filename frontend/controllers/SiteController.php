@@ -123,6 +123,8 @@ class SiteController extends Controller
             $model->name = Yii::$app->request->post('User')['name'];
             $model->phone = Yii::$app->request->post('User')['phone'];
             $model->email = Yii::$app->request->post('User')['email'];
+            $model->infected = Yii::$app->request->post('User')['infected'];
+            $model->province = Yii::$app->request->post('User')['province'];
 
             if ($model->validate())
             {

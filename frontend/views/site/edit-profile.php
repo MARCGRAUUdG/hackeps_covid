@@ -1,4 +1,7 @@
 <?php
+
+use common\models\User;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -33,6 +36,12 @@ $this->title = 'Perfil';
                                 <li class="list-group-item">
                                     <b>Email</b> <a class="float-right"><?= $model->email?></a>
                                 </li>
+                                <li class="list-group-item">
+                                    <b>Estado COVID-19</b> <a class="float-right"><?= $model->infected?></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Provincia</b> <a class="float-right"><?= $model->province?></a>
+                                </li>
                             </ul>
                         </div>
                         <!-- /.card-body -->
@@ -57,6 +66,12 @@ $this->title = 'Perfil';
                                     </li>
                                     <li class="list-group-item">
                                         <?= $form->field($model, 'email') ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <?= $form->field($model, 'infected')->dropDownList(ArrayHelper::map(\frontend\models\Infectat::find()->all(), 'infectatid', 'infectat'), ['prompt' => 'Seleccione Uno' ]);?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <?= $form->field($model, 'province')->dropDownList(ArrayHelper::map(\frontend\models\Provincia::find()->all(), 'provinciaid', 'provincia'), ['prompt' => 'Seleccione Uno' ]);?>
                                     </li>
                                 </ul>
 
