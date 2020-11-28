@@ -3,18 +3,37 @@
 namespace frontend\models;
 
 use Yii;
-use yii\base\Model;
+use yii\behaviors\TimestampBehavior;
 
 /**
- * ContactForm is the model behind the contact form.
+ * This is the model class for table "{{%contact}}".
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $subject
+ * @property string $message
+ * @property int $created_at
  */
-class ContactForm extends Model
+class ContactForm extends \yii\db\ActiveRecord
 {
-    public $name;
-    public $email;
-    public $subject;
-    public $body;
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return '{{%contact}}';
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            ['class' => TimestampBehavior::className(), 'updatedAtAttribute' => false,],
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -22,10 +41,10 @@ class ContactForm extends Model
     public function rules()
     {
         return [
-            // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
-            // email has to be a valid email address
-            ['email', 'email'],
+            [['name', 'email', 'subject', 'message'], 'required'],
+            [['email'], 'email'],
+            [['message'], 'string'],
+            [['name', 'email', 'subject'], 'string', 'max' => 255],
         ];
     }
 
@@ -35,27 +54,12 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'name' => 'Nombre',
             'email' => 'Correo electrónico',
             'subject' => 'Título',
-            'body' => 'Mensaje',
+            'message' => 'Mensaje',
+            'created_at' => 'Enviado en',
         ];
-    }
-
-    /**
-     * Sends an email to the specified email address using the information collected by this model.
-     *
-     * @param string $email the target email address
-     * @return bool whether the email was sent
-     */
-    public function sendEmail($email)
-    {
-        return Yii::$app->mailer->compose()
-            ->setTo($email)
-            ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
-            ->setReplyTo([$this->email => $this->name])
-            ->setSubject($this->subject)
-            ->setTextBody($this->body)
-            ->send();
     }
 }

@@ -7,6 +7,13 @@ use yii\bootstrap4\Breadcrumbs;
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
+            <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
+                <?= \hail812\adminlte3\widgets\Alert::widget([
+                    'type' => $type,
+                    'body' => $message,
+                ]) ?>
+            <?php endforeach ?>
+
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">

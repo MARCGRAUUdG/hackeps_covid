@@ -16,6 +16,8 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_token
  * @property string $verification_token
  * @property string $email
+ * @property string $name
+ * @property integer $phone
  * @property string $auth_key
  * @property integer $status
  * @property integer $role
@@ -25,8 +27,8 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_INACTIVE = -1;
-    const STATUS_DELETED = 0;
+    const STATUS_DELETED = -1;
+    const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
 
     const ROLE_USER = 0;
@@ -58,7 +60,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             ['role', 'default', 'value' => self::ROLE_USER],
             ['role', 'in', 'range' => [self::ROLE_USER, self::ROLE_EXPERT, self::ROLE_ADMIN]],

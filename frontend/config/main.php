@@ -42,11 +42,24 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'app' => 'site/mobile-app',
-                'edit-profile' => 'site/edit-profile',
+                'contacto' => 'site/contact',
+                'registrar' => 'site/signup',
+                'recuperar' => 'site/request-password-reset',
                 '<action>' => 'site/<action>',
                 /*'<controller:[\w\-]+>/<id:\d+>' => '<controller>/view',
                 '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:[\w\-]+>/<action:[\w\-]+' => '<controller>/<action>',*/
+
+                [
+                    'class' => 'yii\web\GroupUrlRule',
+                    'prefix' => 'admin',
+                    'rules' => [
+                        '/' => 'controller/index',
+                        'create' => 'controller/create',
+                        'edit' => 'controller/edit',
+                        'delete' => 'controller/delete',
+                    ]
+                ]
             ],
         ],
     ],
