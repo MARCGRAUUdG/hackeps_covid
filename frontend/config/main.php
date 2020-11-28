@@ -42,6 +42,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'app' => 'site/mobile-app',
+                'edit-profile' => 'site/edit-profile',
                 '<action>' => 'site/<action>',
                 /*'<controller:[\w\-]+>/<id:\d+>' => '<controller>/view',
                 '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<controller>/<action>',

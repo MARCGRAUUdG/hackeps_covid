@@ -30,28 +30,13 @@ use yii\helpers\Html;
                     <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     <p><?= Yii::$app->user->identity->username ?></p>
                     <p>
-                        <?= Yii::$app->user->identity->username ?> - Web Developer
+                        <?= Yii::$app->user->identity->username ?> - <?= Yii::$app->user->identity->role?>
                         <small>Member since Nov. 2012</small>
                     </p>
                 </li>
-                <!-- Menu Body -->
-                <li class="user-body">
-                    <div class="row">
-                        <div class="col-4 text-center">
-                            <a href="#">Followers</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Sales</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Friends</a>
-                        </div>
-                    </div>
-                    <!-- /.row -->
-                </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    <?= Html::a('Profile', ['/edit-profile'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat float-left']) ?>
                     <?= Html::a('Sign out', ['/site/logout'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat float-right']) ?>
                 </li>
             </ul>

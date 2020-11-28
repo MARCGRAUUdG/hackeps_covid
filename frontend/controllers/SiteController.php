@@ -111,6 +111,16 @@ class SiteController extends Controller
     }
 
     /**
+     * Link to download the app
+     *
+     * @return mixed
+     */
+    public function actionEditProfile()
+    {
+        return $this->render('edit-profile');
+    }
+
+    /**
      * Logs out the current user.
      *
      * @return mixed
