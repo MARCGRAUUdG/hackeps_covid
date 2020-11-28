@@ -9,8 +9,8 @@ class ContactFormSearch extends ContactForm
     public function rules()
     {
         return [
-            [['name', 'email', 'subject', 'message'], 'string'],
-            [['id', 'created_at'], 'number'],
+            [['name', 'email', 'subject', 'message', 'created_at'], 'string'],
+            [['id'], 'number'],
         ];
     }
 
@@ -37,7 +37,7 @@ class ContactFormSearch extends ContactForm
 
         if (!empty($this->created_at))
         {
-            $dateStart = date('Y-m-d', $this->created_at);
+            $dateStart = strtotime($this->created_at);
             $dateEnd = strtotime('+23 hours +59 minutes +59 seconds', $dateStart);
             $query->andWhere(['BETWEEN', 'created_at', $dateStart, $dateEnd]);
         }

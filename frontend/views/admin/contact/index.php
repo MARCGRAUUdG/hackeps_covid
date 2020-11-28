@@ -41,7 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'label' => 'Enviado en',
                                 'value' => function($data) {
                                     return date('d/m/Y \a \l\a\s H:i', $data->created_at);
-                                }
+                                },
+                                'filter' => Html::activeInput('date', $searchModel, 'created_at', ['class' => 'form-control']),
                             ],
                             [
                                 'class' => 'yii\grid\ActionColumn',
