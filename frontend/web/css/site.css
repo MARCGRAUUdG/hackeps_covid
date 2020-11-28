@@ -122,3 +122,11 @@ a.desc:after {
 .form-group.has-error .form-control {
     border-color: #dc3545;
 }
+
+a.asc:after {
+    content: "↓";
+}
+
+a.desc:after {
+    content: "↑";
+}

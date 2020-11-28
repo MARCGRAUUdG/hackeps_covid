@@ -54,10 +54,8 @@ return [
                     'class' => 'yii\web\GroupUrlRule',
                     'prefix' => 'admin',
                     'rules' => [
-                        '/' => 'controller/index',
-                        'create' => 'controller/create',
-                        'edit' => 'controller/edit',
-                        'delete' => 'controller/delete',
+                        'contacto' => 'contact/index',
+                        'POST contacto/borrar/<id:\d+>' => 'contact/delete',
                     ]
                 ]
             ],

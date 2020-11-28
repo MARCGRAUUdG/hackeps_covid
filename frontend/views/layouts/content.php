@@ -5,12 +5,12 @@ use yii\bootstrap4\Breadcrumbs;
 ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
         <div class="container-fluid">
             <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
                 <?= \hail812\adminlte3\widgets\Alert::widget([
                     'type' => $type,
-                    'body' => $message,
+                    'title' => $message,
                 ]) ?>
             <?php endforeach ?>
 
@@ -38,12 +38,12 @@ use yii\bootstrap4\Breadcrumbs;
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
+    </section>
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <div class="content">
+    <section class="content">
         <?= $content ?><!-- /.container-fluid -->
-    </div>
+    </section>
     <!-- /.content -->
 </div>

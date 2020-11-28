@@ -14,7 +14,7 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use frontend\models\ContactFormSearch;
 
 /**
  * Site controller
@@ -125,7 +125,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $model = new ContactForm();
+        $model = new ContactFormSearch();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate())
         {
