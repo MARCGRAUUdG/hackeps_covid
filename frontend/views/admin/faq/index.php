@@ -3,7 +3,7 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 
-$categories = [0 => '-- Selecciona categoría --'];
+$categories = [null => '-- Selecciona categoría --'];
 
 $faqCategories = \frontend\models\FaqCategories::find()->select(['id', 'category'])->asArray()->all();
 $faqCategories = \yii\helpers\ArrayHelper::map($faqCategories, 'id', 'category');
