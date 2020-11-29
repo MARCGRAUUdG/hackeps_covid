@@ -456,12 +456,23 @@ class SiteController extends Controller
 
         $province = Yii::$app->request->get('province', null);
 
-        return [
-            'total' => User::find()->where(['NOT', ['infected' => null]])->andWhere(['province' => $province])->count(),
-            'infected' => User::find()->where(['infected' => 1])->andWhere(['province' => $province])->count(),
-            'deaths' => User::find()->where(['infected' => 2])->andWhere(['province' => $province])->count(),
-            'healed' => User::find()->where(['infected' => 3])->andWhere(['province' => $province])->count(),
-        ];
+        if ($province != 0)
+        {
+            return [
+                'total' => User::find()->where(['NOT', ['infected' => null]])->andWhere(['province' => $province])->count(),
+                'infected' => User::find()->where(['infected' => 1])->andWhere(['province' => $province])->count(),
+                'deaths' => User::find()->where(['infected' => 2])->andWhere(['province' => $province])->count(),
+                'healed' => User::find()->where(['infected' => 3])->andWhere(['province' => $province])->count(),
+            ];
+        } else
+        {
+            return [
+                'total' => User::find()->where(['NOT', ['infected' => null]])->count(),
+                'infected' => User::find()->where(['infected' => 1])->count(),
+                'deaths' => User::find()->where(['infected' => 2])->count(),
+                'healed' => User::find()->where(['infected' => 3])->count(),
+            ];
+        }
     }
 
     public function actionOfficialStats()
