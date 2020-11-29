@@ -5,4 +5,6 @@
     </div>
     <!-- Default to the left -->
     <strong>&nbsp;</strong>
+
+    <script src="//code.tidio.co/h8fuewn0whhiiymeoyzcisvgmpptnogj.js" async></script>
 </footer>
