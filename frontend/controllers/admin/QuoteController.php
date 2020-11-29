@@ -4,6 +4,7 @@ namespace frontend\controllers\admin;
 use frontend\filters\AdminRole;
 use frontend\models\ContactForm;
 use frontend\models\Quote;
+use frontend\models\QuoteMessages;
 use frontend\models\search\ContactFormSearch;
 use frontend\models\search\QuoteSearch;
 use Yii;
@@ -49,8 +50,9 @@ class QuoteController extends Controller
         }
 
         $messages = $quote->getMessages()->orderBy(['created_at' => SORT_DESC])->all();
+        $newMessage = new QuoteMessages(['id_quote' => $id, 'id_user' => Yii::$app->user->id]);
 
-        return $this->render('//site/quotes/view', compact('quote', 'messages'));
+        return $this->render('//site/quotes/view', compact('quote', 'messages', 'newMessage'));
     }
 
     public function actionExpert($id)

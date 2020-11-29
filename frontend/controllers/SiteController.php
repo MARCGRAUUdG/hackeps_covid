@@ -447,7 +447,7 @@ class SiteController extends Controller
 
         Yii::$app->session->setFlash('success', 'Estado modificado correctamente');
 
-        return $this->redirect("/consultas/{$id}");
+        return $this->redirect(($role == User::ROLE_ADMIN ? '/admin' : '') . "/consultas/{$id}");
     }
 
     public function actionLocalStats()
