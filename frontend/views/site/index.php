@@ -149,7 +149,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
         <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-warning">
                 <div class="inner">
                     <h3 id="confirmed-cases">Cargando...</h3>
                     <p>Casos confirmados</p>
@@ -162,7 +162,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
         <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-danger">
                 <div class="inner">
                     <h3 id="deaths">Cargando...</h3>
                     <p>Fallecidos</p>
@@ -175,7 +175,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
         <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-success">
                 <div class="inner">
                     <h3 id="healed">Cargando...</h3>
                     <p>Recuperados</p>
