@@ -13,6 +13,7 @@ use frontend\models\QuoteMessages;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\search\QuoteSearch;
 use frontend\models\VerifyEmailForm;
+use http\Client;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
@@ -462,16 +463,42 @@ class SiteController extends Controller
         $dateStart = date('Y-d-m', strtotime($dateStart));
         $dateEnd = date('Y-d-m', strtotime($dateEnd));
 
-        $client = new \http\Client;
-        $request = new \http\Client\Request;
-        $request->setRequestUrl("https://api.covid19tracking.narrativa.com/api/country/spain?date_from=2020-27-11&date_to=2020-28-11");
-        $request->setRequestMethod('GET');
-        $request->setOptions(array());
+        $client = new \yii\httpclient\Client();
+        $response = $client->createRequest()
+            ->setMethod('GET')
+            ->setUrl("https://api.covid19tracking.narrativa.com/api/country/spain?date_from=2020-27-11&date_to=2020-28-11")
+            ->send();
+        if ($response->isOk) {
+            echo $response->content;
+        }
 
-        $client->enqueue($request)->send();
-        $response = $client->getResponse();
-        echo $response;
+        else {
+            echo $response->content;
+        }
+
         exit;
+
+
+
+        $request = new HTTP_Request2();
+        $request->setUrl();
+        $request->setMethod(HTTP_Request2::METHOD_GET);
+        $request->setConfig(array(
+            'follow_redirects' => TRUE
+        ));
+        try {
+            $response = $request->send();
+            if ($response->getStatus() == 200) {
+                echo $response->getBody();
+            }
+            else {
+                echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+                    $response->getReasonPhrase();
+            }
+        }
+        catch(HTTP_Request2_Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
 
         try {
             if (empty($province)) {
