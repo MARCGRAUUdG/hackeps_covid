@@ -462,33 +462,62 @@ class SiteController extends Controller
         $dateStart = date('Y-d-m', strtotime($dateStart));
         $dateEnd = date('Y-d-m', strtotime($dateEnd));
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $curl = curl_init();
 
-        if (empty($province)) {
-            curl_setopt($ch, CURLOPT_URL, "https://api.covid19tracking.narrativa.com/api/country/spain?date_from={$dateStart}&date_to={$dateEnd}");
-        }
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.covid19tracking.narrativa.com/api/country/spain?date_from=2020-27-11&date_to=2020-28-11",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+        ));
 
-        else
-        {
-            $apiId = $province->api_id;
+        $response = curl_exec($curl);
 
-            if (strpos($apiId, '.') !== false)
+        curl_close($curl);
+        echo $response;
+        exit;
+
+        try {
+            if (empty($province)) {
+                $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain?date_from={$dateStart}&date_to={$dateEnd}");
+            }
+
+            else
             {
-                $region = explode('.', $apiId)[0];
-                $subregion = explode('.', $apiId)[1];
+                $apiId = $province->api_id;
 
-                curl_setopt($ch, CURLOPT_URL, "https://api.covid19tracking.narrativa.com/api/country/spain/region/{$region}/sub_region/{$subregion}?date_from={$dateStart}&date_to={$dateEnd}");
+                if (strpos($apiId, '.') !== false)
+                {
+                    $region = explode('.', $apiId)[0];
+                    $subregion = explode('.', $apiId)[1];
+
+                    $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain/region/{$region}/sub_region/{$subregion}?date_from={$dateStart}&date_to={$dateEnd}");
+                }
+
+                else {
+                    $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain/region/{$apiId}?date_from={$dateStart}&date_to={$dateEnd}");
+                }
             }
 
-            else {
-                curl_setopt($ch, CURLOPT_URL, "https://api.covid19tracking.narrativa.com/api/country/spain/region/{$apiId}?date_from={$dateStart}&date_to={$dateEnd}");
-            }
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $data = curl_exec($ch);
+            print_r($data);
+            exit;
         }
 
+        catch (\Exception $ex)
+        {
+            print_r($ex);
+            exit;
+        }
 
+        exit;
 
-        $data = curl_exec($ch);
         curl_close($ch);
 
         print_r($data);
