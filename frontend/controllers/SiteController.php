@@ -28,6 +28,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactFormSearch;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * Site controller
@@ -453,13 +454,15 @@ class SiteController extends Controller
 
     public function actionLocalStats()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         $province = Yii::$app->request->get('province', null);
 
         return [
-            'total' => '',
-            'infected' => '',
-            'deaths' => '',
-            'healed' => '',
+            'total' => User::find()->where(['NOT', ['infected' => null]])->andWhere(['province' => $province])->count(),
+            'infected' => User::find()->where(['infected' => 1])->andWhere(['province' => $province])->count(),
+            'deaths' => User::find()->where(['infected' => 2])->andWhere(['province' => $province])->count(),
+            'healed' => User::find()->where(['infected' => 3])->andWhere(['province' => $province])->count(),
         ];
     }
 
@@ -468,107 +471,99 @@ class SiteController extends Controller
         $province = Yii::$app->request->get('province', null);
         $dateStart = Yii::$app->request->get('from', date('Y-m-d'));
         $dateEnd = Yii::$app->request->get('to', date('Y-m-d'));
+        
+        if (empty($dateStart)) {
+            $dateStart = date('Y-m-d');
+        }
 
-        if (!empty($province))
-        {
-            $province = Provincia::findOne(['provincia' => $province]);
+        if (empty($dateEnd)) {
+            $dateEnd = date('Y-m-d');
+        }
 
-            if (!empty($province)) {
-                $province = trim(ucfirst($province->provincia));
-            }
+        if (!empty($province)) {
+            $province = Provincia::findOne(['provinciaid' => $province]);
         }
 
         if (strtotime($dateStart) >= strtotime($dateEnd)) {
             $dateEnd = $dateStart;
         }
 
-        $dateStart = date('Y-d-m', strtotime($dateStart));
-        $dateEnd = date('Y-d-m', strtotime($dateEnd));
+        $dateStart = date('Y-m-d', strtotime($dateStart));
+        $dateEnd = date('Y-m-d', strtotime($dateEnd));
 
         $client = new \yii\httpclient\Client();
         $response = $client->createRequest()
             ->setMethod('GET')
-            ->setUrl("https://api.covid19tracking.narrativa.com/api/country/spain?date_from=2020-27-11&date_to=2020-28-11")
-            ->send();
-        if ($response->isOk) {
-            echo $response->content;
+            ->setOptions(['timeout' => 60]);
+
+        $withSubregion = null;
+
+        if (empty($province)) {
+            $response->setUrl("https://api.covid19tracking.narrativa.com/api/country/spain?date_from={$dateStart}&date_to={$dateEnd}");
         }
 
-        else {
-            echo $response->content;
-        }
+        else
+        {
+            $apiId = $province->api_id;
 
-        exit;
+            if (strpos($apiId, '.') !== false)
+            {
+                $withSubregion = true;
+                $region = explode('.', $apiId)[0];
+                $subregion = explode('.', $apiId)[1];
 
-
-
-        $request = new HTTP_Request2();
-        $request->setUrl();
-        $request->setMethod(HTTP_Request2::METHOD_GET);
-        $request->setConfig(array(
-            'follow_redirects' => TRUE
-        ));
-        try {
-            $response = $request->send();
-            if ($response->getStatus() == 200) {
-                echo $response->getBody();
-            }
-            else {
-                echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
-                    $response->getReasonPhrase();
-            }
-        }
-        catch(HTTP_Request2_Exception $e) {
-            echo 'Error: ' . $e->getMessage();
-        }
-
-        try {
-            if (empty($province)) {
-                $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain?date_from={$dateStart}&date_to={$dateEnd}");
+                $response->setUrl("https://api.covid19tracking.narrativa.com/api/country/spain/region/{$region}/sub_region/{$subregion}?date_from={$dateStart}&date_to={$dateEnd}");
             }
 
             else
             {
-                $apiId = $province->api_id;
+                $withSubregion = false;
+                $response->setUrl("https://api.covid19tracking.narrativa.com/api/country/spain/region/{$apiId}?date_from={$dateStart}&date_to={$dateEnd}");
+            }
+        }
 
-                if (strpos($apiId, '.') !== false)
+        $response = $response->send();
+
+        if ($response->isOk)
+        {
+            $infected = $deaths = $healed = 0;
+            $lastUpdated = null;
+
+            if (empty($province))
+            {
+                foreach ($response->data['dates'] as $date => $data)
                 {
-                    $region = explode('.', $apiId)[0];
-                    $subregion = explode('.', $apiId)[1];
+                    $infected += (int)$data['countries']['Spain']['today_new_confirmed'];
+                    $deaths += (int)$data['countries']['Spain']['today_new_deaths'];
+                    $healed += (int)$data['countries']['Spain']['today_new_recovered'];
 
-                    $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain/region/{$region}/sub_region/{$subregion}?date_from={$dateStart}&date_to={$dateEnd}");
-                }
-
-                else {
-                    $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain/region/{$apiId}?date_from={$dateStart}&date_to={$dateEnd}");
+                    $lastUpdated = $data['info']['date_generation'];
                 }
             }
 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            else
+            {
+                foreach ($response->data['dates'] as $date => $data)
+                {
+                    $region = $data['countries']['Spain']['regions'][0];
+                    $region = $withSubregion ? $region['sub_regions'][0] : $region;
 
-            $data = curl_exec($ch);
-            print_r($data);
-            exit;
+                    $infected += (isset($region['today_new_confirmed']) ? (int)$region['today_new_confirmed'] : 0);
+                    $deaths += (isset($region['today_new_deaths']) ? (int)$region['today_new_deaths'] : 0);
+                    $healed += (isset($region['today_new_recovered']) ? (int)$region['today_new_recovered'] : 0);
+
+                    $lastUpdated = $data['info']['date_generation'];
+                }
+            }
+
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            return compact('lastUpdated', 'infected', 'deaths', 'healed');
         }
 
-        catch (\Exception $ex)
+        else
         {
-            print_r($ex);
-            exit;
+            return '';
         }
-
-        exit;
-
-        curl_close($ch);
-
-        print_r($data);
-        exit;
-
-        return [
-            'total' => '',
-            'infected' => '',
-            'deaths' => '',
-            'healed' => '',
-        ];
     }
 }

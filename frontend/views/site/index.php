@@ -1,8 +1,59 @@
 <?php
 
 use common\models\User;
+use frontend\models\Provincia;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+
+$newCategoryJS = <<<JS
+    function loadLocalStats()
+    {
+        $('#local-data h3').each(function() {
+            $(this).text('Cargando...');
+        });
+        
+        $.get('/estadisticas/local', function(data) {
+            var keys = Object.keys(data);
+            var index = 0;
+            
+            $('#local-data h3').each(function() {
+                $(this).text(data[keys[index++]]);
+            });
+        });
+    }
+
+    function loadOfficialStats()
+    {
+        var form = $('#official-stats');
+        
+        $('#last-update').text('Cargando...');
+        $('#confirmed-cases').text('Cargando...');
+        $('#deaths').text('Cargando...');
+        $('#healed').text('Cargando...');
+        
+        $.get('/estadisticas/oficial', form.serialize(), function(data) {
+            $('#last-update').text(data['lastUpdated']);
+            $('#confirmed-cases').text(data['infected']);
+            $('#deaths').text(data['deaths']);
+            $('#healed').text(data['healed']);
+        });
+    }
+    
+    $('#local-stats-province').on('change', function() {
+        loadLocalStats();
+        return false;
+    });
+
+    $('#filter-official-stats').click(function() {
+        loadOfficialStats();        
+        return false;
+    });
+
+    loadLocalStats();
+    loadOfficialStats();
+JS;
+
+$this->registerJS($newCategoryJS);
 
 $this->title = 'Estadísticas';
 $this->params['breadcrumbs'] = [['label' => $this->title]];
@@ -12,12 +63,12 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
 <div class="container-fluid">
     <h4>Datos locales actuales</h4>
     <!-- Small boxes (Stat box) -->
-    <div class="row">
+    <div class="row" id="local-data">
         <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3><?= number_format(User::find()->where(['NOT', ['infected' => null]])->count(), 0, ',', '.') ?></h3>
+                    <h3>Cargando...</h3>
                     <p>Total</p>
                 </div>
                 <div class="icon">
@@ -30,7 +81,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3><?= number_format(User::find()->where(['infected' => 1])->count(), 0, ',', '.') ?></h3>
+                    <h3>Cargando...</h3>
                     <p>Casos confirmados</p>
                 </div>
                 <div class="icon">
@@ -43,7 +94,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3><?= number_format(User::find()->where(['infected' => 2])->count(), 0, ',', '.') ?></h3>
+                    <h3>Cargando...</h3>
                     <p>Fallecidos</p>
                 </div>
                 <div class="icon">
@@ -56,7 +107,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3><?= number_format(User::find()->where(['infected' => 3])->count(), 0, ',', '.') ?></h3>
+                    <h3>Cargando...</h3>
                     <p>Recuperados</p>
                 </div>
                 <div class="icon">
@@ -70,8 +121,8 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>Selecciona una província</label>
-                <?= Html::activeDropDownList(new \frontend\models\Provincia, 'provinciaid', ArrayHelper::map(\frontend\models\Provincia::find()->all(), 'provinciaid', 'provincia'), ['class' => 'form-control', 'style' => 'width: 100%;']); ?>
+                <label>Provincia:</label>
+                <?= Html::dropDownList('province', 0, [0 => '-- Selecciona una provincia --'] + ArrayHelper::map(Provincia::find()->orderBy(['provincia' => SORT_ASC])->all(), 'provinciaid', 'provincia'), ['id' => 'local-stats-province', 'class' => 'form-control']); ?>
             </div>
         </div>
         <!-- /.col -->
@@ -80,21 +131,19 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
     <!-- /.row -->
     <br><hr><br>
 
-    <span><h4>Datos Ministerio de Sanidad</h4></span>
+    <h4>Datos Ministerio de Sanidad</h4>
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>150</h3>
-
-                    <p>New Orders</p>
+                    <h3 id="last-update">Cargando...</h3>
+                    <p>Última actualización</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -102,14 +151,12 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                    <p>Bounce Rate</p>
+                    <h3 id="confirmed-cases">Cargando...</h3>
+                    <p>Casos confirmados</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -117,14 +164,12 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>44</h3>
-
-                    <p>User Registrations</p>
+                    <h3 id="deaths">Cargando...</h3>
+                    <p>Fallecidos</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -132,40 +177,29 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>65</h3>
-
-                    <p>Unique Visitors</p>
+                    <h3 id="healed">Cargando...</h3>
+                    <p>Recuperados</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Selecciona una província</label>
-                <?= Html::activeDropDownList(new \frontend\models\Provincia, 'provinciaid', ArrayHelper::map(\frontend\models\Provincia::find()->all(), 'provinciaid', 'provincia'), ['class' => 'form-control', 'style' => 'width: 100%;']); ?>
-            </div>
+        <div class="col-12">
+            <?= Html::beginForm(null, 'GET', ['id' => 'official-stats']) ?>
+                <label>Provincia:</label>
+                <?= Html::dropDownList('province', 0, [0 => '-- Selecciona provincia --'] + ArrayHelper::map(Provincia::find()->orderBy(['provincia' => SORT_ASC])->all(), 'provinciaid', 'provincia'), ['class' => 'form-control']) ?>
+                <label>Fecha inicio:</label>
+                <?= Html::input('date', 'from', date('Y-m-d'), ['class' => 'form-control']) ?>
+                <label>Fecha fin:</label>
+                <?= Html::input('date', 'to', date('Y-m-d'), ['class' => 'form-control']) ?>
+                <?= Html::button('Filtrar', ['id' => 'filter-official-stats', 'class' => 'btn btn-primary']) ?>
+            <?= Html::endForm() ?>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Selecciona un rango de tiempo</label>
-                <select class="form-control" style="width: 100%;">
-                    <option selected="selected">Hoy</option>
-                    <option>Última semana</option>
-                    <option>Último mes</option>
-                    <option>Últimos tres meses</option>
-                    <option>Todo</option>
-                </select>
-            </div>
-            <!-- /.form-group -->
-        </div>
-        <!-- /.col -->
     </div>
     <!-- /.row -->
 </div><!-- /.container-fluid -->
