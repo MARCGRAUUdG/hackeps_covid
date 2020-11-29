@@ -34,7 +34,6 @@ $role = $authed ? (int)Yii::$app->user->identity->role : null;
                         'visible' => $role === User::ROLE_ADMIN,
                         'items' => [
                             ['label' => 'Consultas', 'url' => ['/admin/consultas'], 'icon' => 'user-md', 'iconStyle' => 'far fas'],
-                            ['label' => 'Centros', 'url' => ['/admin/centros'], 'icon' => 'clinic-medical', 'iconStyle' => 'far fas'],
                             ['label' => 'Preguntas Frecuentes', 'url' => ['/admin/faq'], 'icon' => 'question-circle', 'iconStyle' => 'far fas'],
                             ['label' => 'Contacto', 'url' => ['/admin/contacto'], 'icon' => 'envelope', 'iconStyle' => 'far fas'],
                         ]
