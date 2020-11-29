@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\HelperFunctions;
 use common\models\User;
 use frontend\assets\AppAsset;
+use frontend\models\Center;
 use frontend\models\ContactForm;
 use frontend\models\Faq;
 use frontend\models\FaqCategories;
@@ -118,6 +119,25 @@ class SiteController extends Controller
     public function actionMobileApp()
     {
         return $this->render('mobile-app');
+    }
+
+    /**
+     * Render the near centers.
+     *
+     * @return mixed
+     */
+    public function actionCenter()
+    {
+        $model = Center::find()->all();
+
+        if (Yii::$app->request->post())
+        {
+            $centers = Center::find()->where(['id_provincia' => Yii::$app->request->post('Provincia')['provinciaid']] )->all();
+            return $this->render('centers', ['centers' => $centers]);
+        } else
+        {
+            return $this->render('centers', ['centers' => null]);
+        }
     }
 
     /**
