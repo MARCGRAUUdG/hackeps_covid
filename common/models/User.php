@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use frontend\models\Quote;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -233,5 +234,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function getQuotes()
+    {
+        return $this->hasMany(Quote::class, ['id_user' => 'id']);
     }
 }

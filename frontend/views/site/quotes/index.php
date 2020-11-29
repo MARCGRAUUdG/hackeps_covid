@@ -9,6 +9,37 @@ $statuses = [null => '-- Selecciona estado --'] + Quote::STATUS;
 
 $role = Yii::$app->user->identity->role;
 
+if ($role != User::ROLE_EXPERT)
+{
+    $experts = User::find()->select(['id', 'name'])->where(['role' => User::ROLE_EXPERT])->asArray()->all();
+    $experts = [null => '-- Selecciona experto --'] + \yii\helpers\ArrayHelper::map($experts, 'id', 'name');
+}
+
+else {
+    $experts = [];
+}
+
+if ($role != User::ROLE_USER)
+{
+    $users = User::find()->select(['user.id', 'name'])
+        ->joinWith(['quotes'], false, 'INNER JOIN')
+        ->where(['role' => User::ROLE_USER]);
+
+    if ($role == User::ROLE_EXPERT) {
+        $users = $users->andWhere(['id_expert' => Yii::$app->user->identity->id]);
+    }
+
+    $users = $users->groupBy(['user.id'])
+        ->asArray()
+        ->all();
+
+    $users = [null => '-- Selecciona usuario --'] + \yii\helpers\ArrayHelper::map($users, 'id', 'name');
+}
+
+else {
+    $users = [];
+}
+
 $this->title = "Consultas";
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -47,6 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $expert->name;
                                 },
                                 'visible' => $role != \common\models\User::ROLE_EXPERT,
+                                'filter' => Html::activeDropDownList($searchModel, 'id_expert', $experts, ['class' => 'form-control']),
                             ],
                             [
                                 'label' => 'Usuario',
@@ -56,6 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $user->name;
                                 },
                                 'visible' => $role != \common\models\User::ROLE_USER,
+                                'filter' => Html::activeDropDownList($searchModel, 'id_user', $users, ['class' => 'form-control']),
                             ],
                             [
                                 'label' => 'Consulta',

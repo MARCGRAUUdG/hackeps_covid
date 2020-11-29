@@ -79,6 +79,7 @@ return [
 
                         'consultas' => 'quote/index',
                         'consultas/<id:\d+>' => 'quote/view',
+                        'POST consultas/<id:\d+>/experto' => 'quote/expert',
                     ]
                 ]
             ],
