@@ -7,6 +7,7 @@ use frontend\assets\AppAsset;
 use frontend\models\ContactForm;
 use frontend\models\Faq;
 use frontend\models\FaqCategories;
+use frontend\models\Provincia;
 use frontend\models\Quote;
 use frontend\models\QuoteMessages;
 use frontend\models\ResendVerificationEmailForm;
@@ -425,5 +426,79 @@ class SiteController extends Controller
         Yii::$app->session->setFlash('success', 'Estado modificado correctamente');
 
         return $this->redirect("/consultas/{$id}");
+    }
+
+    public function actionLocalStats()
+    {
+        $province = Yii::$app->request->get('province', null);
+
+        return [
+            'total' => '',
+            'infected' => '',
+            'deaths' => '',
+            'healed' => '',
+        ];
+    }
+
+    public function actionOfficialStats()
+    {
+        $province = Yii::$app->request->get('province', null);
+        $dateStart = Yii::$app->request->get('from', date('Y-m-d'));
+        $dateEnd = Yii::$app->request->get('to', date('Y-m-d'));
+
+        if (!empty($province))
+        {
+            $province = Provincia::findOne(['provincia' => $province]);
+
+            if (!empty($province)) {
+                $province = trim(ucfirst($province->provincia));
+            }
+        }
+
+        if (strtotime($dateStart) >= strtotime($dateEnd)) {
+            $dateEnd = $dateStart;
+        }
+
+        $dateStart = date('Y-d-m', strtotime($dateStart));
+        $dateEnd = date('Y-d-m', strtotime($dateEnd));
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        if (empty($province)) {
+            curl_setopt($ch, CURLOPT_URL, "https://api.covid19tracking.narrativa.com/api/country/spain?date_from={$dateStart}&date_to={$dateEnd}");
+        }
+
+        else
+        {
+            $apiId = $province->api_id;
+
+            if (strpos($apiId, '.') !== false)
+            {
+                $region = explode('.', $apiId)[0];
+                $subregion = explode('.', $apiId)[1];
+
+                curl_setopt($ch, CURLOPT_URL, "https://api.covid19tracking.narrativa.com/api/country/spain/region/{$region}/sub_region/{$subregion}?date_from={$dateStart}&date_to={$dateEnd}");
+            }
+
+            else {
+                curl_setopt($ch, CURLOPT_URL, "https://api.covid19tracking.narrativa.com/api/country/spain/region/{$apiId}?date_from={$dateStart}&date_to={$dateEnd}");
+            }
+        }
+
+
+
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        print_r($data);
+        exit;
+
+        return [
+            'total' => '',
+            'infected' => '',
+            'deaths' => '',
+            'healed' => '',
+        ];
     }
 }
