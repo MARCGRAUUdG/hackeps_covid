@@ -24,7 +24,7 @@ $this->title = 'Perfil';
 
                             <h3 class="profile-username text-center"><?= Yii::$app->user->identity->name?></h3>
 
-                            <p class="text-muted text-center"><?= Yii::$app->user->identity->role?></p>
+                            <p class="text-muted text-center"><?= \common\models\User::ROLE[Yii::$app->user->identity->role] ?></p>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
@@ -37,10 +37,10 @@ $this->title = 'Perfil';
                                     <b>Email</b> <a class="float-right"><?= $model->email?></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Estado COVID-19</b> <a class="float-right"><?= $model->infected?></a>
+                                    <b>Estado COVID-19</b> <a class="float-right"><?= \frontend\models\Infectat::find()->where(['infectatid' => $model->infected])->one()->infectat; ?></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Provincia</b> <a class="float-right"><?= $model->province?></a>
+                                    <b>Provincia</b> <a class="float-right"><?= ($model->province!=0) ? \frontend\models\Provincia::find()->where(['provinciaid' => $model->province])->one()->provincia : $model->province?></a>
                                 </li>
                             </ul>
                         </div>

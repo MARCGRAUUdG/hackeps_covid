@@ -20,8 +20,8 @@ use yii\helpers\Html;
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu">
             <?php if (Yii::$app->user->isGuest): ?>
-                <a href="/login" class="btn btn-default btn-flat">Iniciar sesión</a>
-                <a href="/registrar" class="btn btn-primary btn-flat">Crear cuenta</a>
+                <a href="/login" class="btn btn-default btn-flat" style="float: right;">Iniciar sesión</a>
+                <a href="/registrar" class="btn btn-primary btn-flat" style="float: right;">Crear cuenta</a>
             <?php else: ?>
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                     <img src="//merics.org/sites/default/files/styles/ct_team_member_default/public/2020-04/avatar-placeholder.png?itok=Vhm0RCa3" class="user-image img-circle elevation-2" alt="User Image">
