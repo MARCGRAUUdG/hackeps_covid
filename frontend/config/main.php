@@ -41,6 +41,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'estadisticas/local' => 'site/local-stats',
                 'estadisticas/oficial' => 'site/official-stats',
 
                 'app' => 'site/mobile-app',
