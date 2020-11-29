@@ -16,7 +16,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 <?php $form = ActiveForm::begin(['id' => 'form-center']); ?>
 
                 <label>Selecciona una província</label>
-                <?= Html::activeDropDownList(new \frontend\models\Provincia, 'provinciaid', ArrayHelper::map(\frontend\models\Provincia::find()->all(), 'provinciaid', 'provincia'), ['class' => 'form-control', 'style' => 'width: 100%;']); ?>
+                <?= Html::activeDropDownList(new \frontend\models\Provincia, 'provinciaid', ArrayHelper::map(\frontend\models\Provincia::find()->orderBy(['provincia' => SORT_ASC])->all(), 'provinciaid', 'provincia'), ['class' => 'form-control', 'style' => 'width: 100%;']); ?>
                 <hr>
                 <div class="form-group">
                     <?= Html::submitButton('Buscar centros', ['class' => 'btn btn-primary', 'name' => 'center-button']) ?>
@@ -27,16 +27,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 <!-- TABLE: Centros properos -->
                 <div class="card">
                     <div class="card-header border-transparent">
-                        <h3 class="card-title">Centros properos</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
+                        <h3 class="card-title">Centros cercanos</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0">

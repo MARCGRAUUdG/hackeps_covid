@@ -50,7 +50,7 @@ return [
 
                 'registrar' => 'site/signup',
                 'recuperar' => 'site/request-password-reset',
-                'pruebas/centros' => 'site/center',
+                'centros' => 'site/center',
                 'faq' => 'site/faq',
 
                 'consultas' => 'site/quotes',
