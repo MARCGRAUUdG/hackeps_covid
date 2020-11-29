@@ -6,21 +6,6 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 $newCategoryJS = <<<JS
-    function loadLocalStats()
-    {
-        $('#local-data h3').each(function() {
-            $(this).text('Cargando...');
-        });
-        
-        $.get('/estadisticas/local', function(data) {
-            var keys = Object.keys(data);
-            var index = 0;
-            
-            $('#local-data h3').each(function() {
-                $(this).text(data[keys[index++]]);
-            });
-        });
-    }
 
     function loadOfficialStats()
     {
@@ -40,7 +25,6 @@ $newCategoryJS = <<<JS
     }
     
     $('#local-stats-province').on('change', function() {
-        loadLocalStats();
         return false;
     });
 
@@ -48,8 +32,7 @@ $newCategoryJS = <<<JS
         loadOfficialStats();        
         return false;
     });
-
-    loadLocalStats();
+    
     loadOfficialStats();
 JS;
 
@@ -68,7 +51,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>Cargando...</h3>
+                    <h3><?= number_format(User::find()->where(['NOT', ['infected' => null]])->count(), 0, ',', '.') ?></h3>
                     <p>Total</p>
                 </div>
                 <div class="icon">
@@ -81,7 +64,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>Cargando...</h3>
+                    <h3><?= number_format(User::find()->where(['infected' => 1])->count(), 0, ',', '.') ?></h3>
                     <p>Casos confirmados</p>
                 </div>
                 <div class="icon">
@@ -94,7 +77,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>Cargando...</h3>
+                    <h3><?= number_format(User::find()->where(['infected' => 2])->count(), 0, ',', '.') ?></h3>
                     <p>Fallecidos</p>
                 </div>
                 <div class="icon">
@@ -107,7 +90,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>Cargando...</h3>
+                    <h3><?= number_format(User::find()->where(['infected' => 3])->count(), 0, ',', '.') ?></h3>
                     <p>Recuperados</p>
                 </div>
                 <div class="icon">
