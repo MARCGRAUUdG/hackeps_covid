@@ -50,7 +50,7 @@ class QuoteSearch extends Quote
             $query->andWhere(['BETWEEN', 'created_at', $dateStart, $dateEnd]);
         }
 
-        $query->orderBy(['status' => SORT_ASC, 'date_created' => SORT_ASC]);
+        $query->orderBy(['status' => SORT_ASC, 'created_at' => SORT_ASC]);
 
         return $dataProvider;
     }
