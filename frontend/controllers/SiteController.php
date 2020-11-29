@@ -130,11 +130,9 @@ class SiteController extends Controller
     {
         $model = Center::find()->all();
 
-        if ($model->load(Yii::$app->request->post()))
+        if (Yii::$app->request->post())
         {
-            $centers = ArrayHelper::map(Center::find()->where(['id_provincia' => Yii::$app->request->post('User')['id_prov']] )->all(), 'id', 'name');
-            print_r($centers);
-            exit;
+            $centers = Center::find()->where(['id_provincia' => Yii::$app->request->post('Provincia')['provinciaid']] )->all();
             return $this->render('centers', ['centers' => $centers]);
         } else
         {
