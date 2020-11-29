@@ -41,12 +41,17 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'estadisticas/oficial' => 'site/official-stats',
+
                 'app' => 'site/mobile-app',
+
                 'contacto' => 'site/contact',
+
                 'registrar' => 'site/signup',
                 'recuperar' => 'site/request-password-reset',
                 'pruebas/centros' => 'site/center',
                 'faq' => 'site/faq',
+
                 'consultas' => 'site/quotes',
                 'consultas/<id:\d+>' => 'site/quote',
                 'POST consultas/<id:\d+>/mensaje' => 'site/quote-message',

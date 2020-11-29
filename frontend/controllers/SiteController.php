@@ -7,11 +7,13 @@ use frontend\assets\AppAsset;
 use frontend\models\ContactForm;
 use frontend\models\Faq;
 use frontend\models\FaqCategories;
+use frontend\models\Provincia;
 use frontend\models\Quote;
 use frontend\models\QuoteMessages;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\search\QuoteSearch;
 use frontend\models\VerifyEmailForm;
+use http\Client;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
@@ -435,5 +437,126 @@ class SiteController extends Controller
         Yii::$app->session->setFlash('success', 'Estado modificado correctamente');
 
         return $this->redirect("/consultas/{$id}");
+    }
+
+    public function actionLocalStats()
+    {
+        $province = Yii::$app->request->get('province', null);
+
+        return [
+            'total' => '',
+            'infected' => '',
+            'deaths' => '',
+            'healed' => '',
+        ];
+    }
+
+    public function actionOfficialStats()
+    {
+        $province = Yii::$app->request->get('province', null);
+        $dateStart = Yii::$app->request->get('from', date('Y-m-d'));
+        $dateEnd = Yii::$app->request->get('to', date('Y-m-d'));
+
+        if (!empty($province))
+        {
+            $province = Provincia::findOne(['provincia' => $province]);
+
+            if (!empty($province)) {
+                $province = trim(ucfirst($province->provincia));
+            }
+        }
+
+        if (strtotime($dateStart) >= strtotime($dateEnd)) {
+            $dateEnd = $dateStart;
+        }
+
+        $dateStart = date('Y-d-m', strtotime($dateStart));
+        $dateEnd = date('Y-d-m', strtotime($dateEnd));
+
+        $client = new \yii\httpclient\Client();
+        $response = $client->createRequest()
+            ->setMethod('GET')
+            ->setUrl("https://api.covid19tracking.narrativa.com/api/country/spain?date_from=2020-27-11&date_to=2020-28-11")
+            ->send();
+        if ($response->isOk) {
+            echo $response->content;
+        }
+
+        else {
+            echo $response->content;
+        }
+
+        exit;
+
+
+
+        $request = new HTTP_Request2();
+        $request->setUrl();
+        $request->setMethod(HTTP_Request2::METHOD_GET);
+        $request->setConfig(array(
+            'follow_redirects' => TRUE
+        ));
+        try {
+            $response = $request->send();
+            if ($response->getStatus() == 200) {
+                echo $response->getBody();
+            }
+            else {
+                echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+                    $response->getReasonPhrase();
+            }
+        }
+        catch(HTTP_Request2_Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+
+        try {
+            if (empty($province)) {
+                $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain?date_from={$dateStart}&date_to={$dateEnd}");
+            }
+
+            else
+            {
+                $apiId = $province->api_id;
+
+                if (strpos($apiId, '.') !== false)
+                {
+                    $region = explode('.', $apiId)[0];
+                    $subregion = explode('.', $apiId)[1];
+
+                    $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain/region/{$region}/sub_region/{$subregion}?date_from={$dateStart}&date_to={$dateEnd}");
+                }
+
+                else {
+                    $ch = curl_init("https://api.covid19tracking.narrativa.com/api/country/spain/region/{$apiId}?date_from={$dateStart}&date_to={$dateEnd}");
+                }
+            }
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $data = curl_exec($ch);
+            print_r($data);
+            exit;
+        }
+
+        catch (\Exception $ex)
+        {
+            print_r($ex);
+            exit;
+        }
+
+        exit;
+
+        curl_close($ch);
+
+        print_r($data);
+        exit;
+
+        return [
+            'total' => '',
+            'infected' => '',
+            'deaths' => '',
+            'healed' => '',
+        ];
     }
 }
