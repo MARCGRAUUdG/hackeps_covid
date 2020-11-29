@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\HelperFunctions;
 use common\models\User;
 use frontend\assets\AppAsset;
+use frontend\models\Center;
 use frontend\models\ContactForm;
 use frontend\models\Faq;
 use frontend\models\FaqCategories;
@@ -126,7 +127,18 @@ class SiteController extends Controller
      */
     public function actionCenter()
     {
-        return $this->render('centers');
+        $model = Center::find()->all();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $centers = ArrayHelper::map(Center::find()->where(['id_provincia' => Yii::$app->request->post('User')['id_prov']] )->all(), 'id', 'name');
+            print_r($centers);
+            exit;
+            return $this->render('centers', ['centers' => $centers]);
+        } else
+        {
+            return $this->render('centers', ['centers' => null]);
+        }
     }
 
     /**
