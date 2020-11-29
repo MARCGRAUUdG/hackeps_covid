@@ -20,9 +20,17 @@ switch ($quote->status)
 
 $quoteId = $quote->id;
 
+$experts = User::find()->select(['id', 'name'])->where(['role' => User::ROLE_EXPERT])->asArray()->all();
+$experts = [null => '-- Selecciona experto --'] + \yii\helpers\ArrayHelper::map($experts, 'id', 'name');
+
 $newCategoryJS = <<<JS
     $('#status-selector').on('change', function() {
         $.post('/consultas/$quoteId/estado', { status: $(this).val() });
+        return false;        
+    });
+
+    $('#expert-selector').on('change', function() {
+        $.post('/admin/consultas/$quoteId/experto', { expert: $(this).val() });
         return false;        
     });
 JS;
@@ -47,6 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif ?>
         </div>
     </div>
+
+    <?php if (Yii::$app->user->identity->role == User::ROLE_ADMIN): ?>
+        <div class="row">
+            <div class="col-12">
+                <?= Html::dropDownList('expert', $quote->id_expert, $experts, ['id' => 'expert-selector', 'class' => 'form-control float-right mb-2']) ?>
+            </div>
+        </div>
+    <?php endif ?>
 
     <div class="row">
         <div class="col-12">

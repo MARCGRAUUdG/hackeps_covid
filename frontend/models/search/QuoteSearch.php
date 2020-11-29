@@ -24,10 +24,6 @@ class QuoteSearch extends Quote
             'query' => $query,
         ]);
 
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
-
         $role = Yii::$app->user->identity->role;
 
         if ($role == User::ROLE_USER) {
@@ -38,13 +34,13 @@ class QuoteSearch extends Quote
             $query->andWhere(['id_expert' => Yii::$app->user->id]);
         }
 
-        else
-        {
-            $query->andFilterWhere(['id_user' => $this->id_user])
-                ->andFilterWhere(['id_expert' => $this->id_expert]);
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
         }
 
-        $query->andFilterWhere(['id' => $this->id, 'status' => $this->status]);
+        $query->andFilterWhere(['id_user' => $this->id_user])
+            ->andFilterWhere(['id_expert' => $this->id_expert])
+            ->andFilterWhere(['id' => $this->id, 'status' => $this->status]);
 
         if (!empty($this->created_at))
         {

@@ -53,6 +53,34 @@ class QuoteController extends Controller
         return $this->render('//site/quotes/view', compact('quote', 'messages'));
     }
 
+    public function actionExpert($id)
+    {
+        $quote = Quote::findOne(['id' => $id]);
+
+        if (empty($quote)) {
+            throw new NotFoundHttpException("No se ha podido encontrar la consulta");
+        }
+
+        $expert = Yii::$app->request->post('expert', null);
+
+        if (empty($expert))
+        {
+            Yii::$app->session->setFlash('danger', 'No se ha especificado un experto');
+            return $this->redirect("/admin/consultas/{$id}");
+        }
+
+        if ($quote->status == Quote::STATUS_CREATED) {
+            $quote->status = Quote::STATUS_ASSIGNED;
+        }
+
+        $quote->id_expert = $expert;
+        $quote->save();
+
+        Yii::$app->session->setFlash('success', 'Experto asignado correctamente');
+
+        return $this->redirect("/admin/consultas/{$id}");
+    }
+
     public function actionDelete($id)
     {
         $contact = ContactForm::findOne(['id' => $id]);
