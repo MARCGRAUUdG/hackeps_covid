@@ -462,22 +462,14 @@ class SiteController extends Controller
         $dateStart = date('Y-d-m', strtotime($dateStart));
         $dateEnd = date('Y-d-m', strtotime($dateEnd));
 
-        $curl = curl_init();
+        $client = new \http\Client;
+        $request = new \http\Client\Request;
+        $request->setRequestUrl("https://api.covid19tracking.narrativa.com/api/country/spain?date_from=2020-27-11&date_to=2020-28-11");
+        $request->setRequestMethod('GET');
+        $request->setOptions(array());
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.covid19tracking.narrativa.com/api/country/spain?date_from=2020-27-11&date_to=2020-28-11",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
+        $client->enqueue($request)->send();
+        $response = $client->getResponse();
         echo $response;
         exit;
 
