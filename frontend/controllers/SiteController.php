@@ -118,6 +118,16 @@ class SiteController extends Controller
     }
 
     /**
+     * Render the near centers.
+     *
+     * @return mixed
+     */
+    public function actionCenter()
+    {
+        return $this->render('centers');
+    }
+
+    /**
      * Link to download the app
      *
      * @return mixed

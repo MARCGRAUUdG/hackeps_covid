@@ -45,6 +45,7 @@ return [
                 'contacto' => 'site/contact',
                 'registrar' => 'site/signup',
                 'recuperar' => 'site/request-password-reset',
+                'pruebas/centros' => 'site/center',
                 'faq' => 'site/faq',
                 'consultas' => 'site/quotes',
                 'consultas/<id:\d+>' => 'site/quote',
