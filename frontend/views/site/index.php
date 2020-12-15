@@ -12,7 +12,7 @@ while (count($newColors) <= $categoryCount) {
 $this->title = 'Servidores';
 $this->params['breadcrumbs'][] = $this->title;
 
-$userServers = null;//\app\models\Servers::find()->where(['client' => 14])->asArray()->all();
+$userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->id])->asArray()->all();
 ?>
 <div class="container-fluid">
     <div class="row">

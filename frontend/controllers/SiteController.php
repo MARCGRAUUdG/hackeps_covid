@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use app\models\Servers;
 use common\models\HelperFunctions;
 use common\models\User;
 use frontend\assets\AppAsset;
@@ -88,6 +89,28 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionNewserver()
+    {
+        if (Yii::$app->request->isPost)
+        {
+            $post = Yii::$app->request->post('Servers');
+            //print_r($post);
+            //exit;
+
+
+            //$salida = shell_exec('pwd');
+            //echo "<pre>$salida</pre>";
+            //exit;
+
+            $model = new Servers();
+            $model->client = Yii::$app->user->id;
+            $model->pla = $post['pla'];
+            $model->clau = '123';
+            $model->save();
+        }
+        return $this->render('newserver');
+    }
+
     /**
      * Logs in a user.
      *
@@ -154,8 +177,6 @@ class SiteController extends Controller
             $model->name = Yii::$app->request->post('User')['name'];
             $model->phone = Yii::$app->request->post('User')['phone'];
             $model->email = Yii::$app->request->post('User')['email'];
-            $model->infected = Yii::$app->request->post('User')['infected'];
-            $model->province = Yii::$app->request->post('User')['province'];
 
             if ($model->validate())
             {

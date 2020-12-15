@@ -23,7 +23,7 @@ $role = $authed ? (int)Yii::$app->user->identity->role : null;
             echo \hail812\adminlte3\widgets\Menu::widget([
                 'items' => [
                     ['label' => 'Servidors', 'url' => ['/'], 'icon' => 'clinic-medical'],
-                    ['label' => 'Nou servidor', 'url' => ['/new'], 'icon' => 'user-md', 'visible' => $authed],
+                    ['label' => 'Nou servidor', 'url' => ['/newserver'], 'icon' => 'user-md', 'visible' => $authed],
                 ],
             ]);
             ?>

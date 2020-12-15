@@ -53,6 +53,8 @@ return [
                 'centros' => 'site/center',
                 'faq' => 'site/faq',
 
+                'newserver' => 'site/newserver',
+
                 'consultas' => 'site/quotes',
                 'consultas/<id:\d+>' => 'site/quote',
                 'POST consultas/<id:\d+>/mensaje' => 'site/quote-message',

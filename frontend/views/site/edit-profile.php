@@ -36,12 +36,6 @@ $this->title = 'Perfil';
                                 <li class="list-group-item">
                                     <b>Email</b> <a class="float-right"><?= $model->email?></a>
                                 </li>
-                                <li class="list-group-item">
-                                    <b>Estado COVID-19</b> <a class="float-right"><?= \frontend\models\Infectat::find()->where(['infectatid' => $model->infected])->one()->infectat; ?></a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Provincia</b> <a class="float-right"><?= ($model->province!=0) ? \frontend\models\Provincia::find()->where(['provinciaid' => $model->province])->one()->provincia : $model->province?></a>
-                                </li>
                             </ul>
                         </div>
                         <!-- /.card-body -->
@@ -66,12 +60,6 @@ $this->title = 'Perfil';
                                     </li>
                                     <li class="list-group-item">
                                         <?= $form->field($model, 'email') ?>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <?= $form->field($model, 'infected')->dropDownList(ArrayHelper::map(\frontend\models\Infectat::find()->all(), 'infectatid', 'infectat'), ['prompt' => 'Seleccione Uno' ]);?>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <?= $form->field($model, 'province')->dropDownList(ArrayHelper::map(\frontend\models\Provincia::find()->all(), 'provinciaid', 'provincia'), ['prompt' => 'Seleccione Uno' ]);?>
                                     </li>
                                 </ul>
 
