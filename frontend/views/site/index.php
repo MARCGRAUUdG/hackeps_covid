@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Html;
+
 $colors = ['success', 'info', 'warning', 'danger'];
 
 $categoryCount = 4;
@@ -13,6 +15,8 @@ $this->title = 'Servidores';
 $this->params['breadcrumbs'][] = $this->title;
 
 $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->id])->asArray()->all();
+
+
 ?>
 <div class="container-fluid">
     <div class="row">
@@ -25,6 +29,15 @@ $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->
             <?php else: ?>
                 <?php $categoryIndex = 0 ?>
                 <?php foreach ($userServers as $server): ?>
+                    <?php
+                    $form = \yii\widgets\ActiveForm::begin(
+                        [
+                            'id' => 'deleteserver-form',
+                            'action' => 'site/deleteserver/' .$server['id'],
+                            'method' => 'post',
+                        ]
+                    );
+                    ?>
                     <?php
                         $pack = \app\models\Pla::find()->where(['id' => $server['pla']])->one();
                     ?>
@@ -39,8 +52,12 @@ $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->
                             </div>
                         </a>
                     </div>
+                    <?= Html::submitButton('Delete', ['class' => 'btn btn-danger btn-block']) ?>
+                    <br><hr>
+                    <?php \yii\widgets\ActiveForm::end();?>
                 <?php endforeach ?>
             <?php endif ?>
         </div>
     </div>
 </div>
+

@@ -106,9 +106,37 @@ class SiteController extends Controller
             $model->client = Yii::$app->user->id;
             $model->pla = $post['pla'];
             $model->clau = '123';
-            $model->save();
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Servidor creat amb èxit!');
+            }
+
+            else {
+                Yii::$app->session->setFlash('error', 'Error amb el creat: ' . HelperFunctions::errors($model));
+            }
 
             return $this->actionIndex();
+        }
+        return $this->render('newserver');
+    }
+
+    public function actionDeleteserver($id)
+    {
+        if (Yii::$app->request->isPost)
+        {
+            //$salida = shell_exec('pwd');
+            //echo "<pre>$salida</pre>";
+            //exit;
+
+            $model = Servers::find()->where(['id' => $id])->one();
+            if (!$model->delete())
+            {
+                Yii::$app->session->setFlash('error', 'Error eliminant el servidor: ' . HelperFunctions::errors($model));
+            } else
+            {
+                Yii::$app->session->setFlash('success', 'Servidor eliminat amb èxit!');
+            }
+
+            return $this->render('index');
         }
         return $this->render('newserver');
     }
