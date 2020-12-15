@@ -114,7 +114,7 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('error', 'Error amb el creat: ' . HelperFunctions::errors($model));
             }
 
-            return $this->actionIndex();
+            return $this->redirect('/');
         }
         return $this->render('newserver');
     }
@@ -136,7 +136,7 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('success', 'Servidor eliminat amb èxit!');
             }
 
-            return $this->render('index');
+            return $this->redirect('/');
         }
         return $this->render('newserver');
     }
