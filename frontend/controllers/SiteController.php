@@ -107,6 +107,8 @@ class SiteController extends Controller
             $model->pla = $post['pla'];
             $model->clau = '123';
             $model->save();
+
+            return $this->actionIndex();
         }
         return $this->render('newserver');
     }

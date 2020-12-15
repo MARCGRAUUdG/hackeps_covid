@@ -25,7 +25,10 @@ $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->
             <?php else: ?>
                 <?php $categoryIndex = 0 ?>
                 <?php foreach ($userServers as $server): ?>
-                    <h4><?= $server['pla'] ?></h4>
+                    <?php
+                        $pack = \app\models\Pla::find()->where(['id' => $server['pla']])->one();
+                    ?>
+                    <h4>SO: <?= $pack->os ?> // RAM: <?=$pack->ram?> // CPU: <?=$pack->cores?> cores // HDD: <?=$pack->hdd?> // Conexió: <?=$pack->conection?></h4>
 
                     <div class="card card-<?= $colors[$categoryIndex % 4] ?> card-outline">
                         <a class="d-block w-100" href="#collapse-faq-<?= $server['id'] ?>">
