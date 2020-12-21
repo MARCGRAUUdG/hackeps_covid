@@ -91,42 +91,35 @@ class SiteController extends Controller
 
     public function actionNewserver()
     {
-        if (Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post('Servers');
-
-            if ($post['pla'] == 1){
+            /*if ($post['pla'] == 1){
                 $salida = shell_exec("sudo VBoxManage createvm --name 1_Ubuntu --ostype Ubuntu_64 --register");
                 shell_exec("sudo VBoxManage modifyvm 1_Ubuntu --memory 1028 --cpus 1 --vram 30 --graphicscontroller vmsvga --vrde on");
                 shell_exec("sudo VBoxManage modifyvm 1_Ubuntu --bridgeadapter1 'wlp1s0' --nic1 bridged");
                 shell_exec("sudo VBoxManage clonemedium disk /home/marc/Documents/BaseUbuntu.vdi /home/marc/Documents/fitxer_output1.vdi --format vdi");
                 shell_exec("sudo VBoxManage storagectl 1_Ubuntu --name 'SATA Controller' --add sata --controller IntelAhci");
                 shell_exec("sudo VBoxManage storageattach 1_Ubuntu --storagectl 'SATA Controller' --port 0 --device 0 --type hdd --medium /home/marc/Documents/fitxer_output1.vdi");
-            } else if ($post['pla'] == 2)
-            {
+            } else if ($post['pla'] == 2) {
                 $salida = shell_exec("sudo VBoxManage createvm --name 2_Ubuntu --ostype Ubuntu_64 --register");
                 shell_exec("sudo VBoxManage modifyvm 2_Ubuntu --memory 2048 --cpus 2 --vram 30 --graphicscontroller vmsvga --vrde on");
                 shell_exec("sudo VBoxManage modifyvm 2_Ubuntu --bridgeadapter1 'wlp1s0' --nic1 bridged");
                 shell_exec("sudo VBoxManage clonemedium disk /home/marc/Documents/BaseUbuntu.vdi /home/marc/Documents/fitxer_output2.vdi --format vdi");
                 shell_exec("sudo VBoxManage storagectl 2_Ubuntu --name 'SATA Controller' --add sata --controller IntelAhci");
                 shell_exec("sudo VBoxManage storageattach 2_Ubuntu --storagectl 'SATA Controller' --port 0 --device 0 --type hdd --medium /home/marc/Documents/fitxer_output2.vdi");
-            } else if ($post['pla'] == 3)
-            {
+            } else if ($post['pla'] == 3) {
                 $salida = shell_exec("sudo VBoxManage createvm --name 3_Ubuntu --ostype Ubuntu_64 --register");
                 shell_exec("sudo VBoxManage modifyvm 3_Ubuntu --memory 4096 --cpus 4 --vram 30 --graphicscontroller vmsvga --vrde on");
                 shell_exec("sudo VBoxManage modifyvm 3_Ubuntu --bridgeadapter1 'wlp1s0' --nic1 bridged");
                 shell_exec("sudo VBoxManage clonemedium disk /home/marc/Documents/BaseUbuntu.vdi /home/marc/Documents/fitxer_output3.vdi --format vdi");
                 shell_exec("sudo VBoxManage storagectl 3_Ubuntu --name 'SATA Controller' --add sata --controller IntelAhci");
                 shell_exec("sudo VBoxManage storageattach 3_Ubuntu --storagectl 'SATA Controller' --port 0 --device 0 --type hdd --medium /home/marc/Documents/fitxer_output3.vdi");
-            }
-
-            $newSalida = explode(" ",$salida);
-            $newSalida2 = explode(" ",$newSalida[7]);
-
+            }*/
+            //$newSalida = explode(" ",$salida);
             $model = new Servers();
             $model->client = Yii::$app->user->id;
             $model->pla = $post['pla'];
-            $model->clau = $newSalida2[0];
+            $model->clau = 'UUID de la màquina';
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Servidor creat amb èxit!'.$salida);
             }
@@ -134,7 +127,6 @@ class SiteController extends Controller
             else {
                 Yii::$app->session->setFlash('error', 'Error amb el creat: ' . HelperFunctions::errors($model));
             }
-
             return $this->redirect('/');
         }
         return $this->render('newserver');
@@ -144,11 +136,10 @@ class SiteController extends Controller
     {
         if (Yii::$app->request->isPost)
         {
-            //$salida = shell_exec('pwd');
-            //echo "<pre>$salida</pre>";
-            //exit;
-
             $model = Servers::find()->where(['id' => $id])->one();
+
+            //shell_exec('sudo VBoxManage unregistervm '. $model->clau .' --delete');
+
             if (!$model->delete())
             {
                 Yii::$app->session->setFlash('error', 'Error eliminant el servidor: ' . HelperFunctions::errors($model));
@@ -160,6 +151,28 @@ class SiteController extends Controller
             return $this->redirect('/');
         }
         return $this->render('newserver');
+    }
+
+    public function actionPower($id)
+    {
+        $model = Servers::find()->where(['id' => $id])->one();
+
+        //$salida = shell_exec("sudo VBoxManage startvm ". $model->clau ." --type headless");
+
+        Yii::$app->session->setFlash('success', 'Servidor engegat amb èxit!');
+
+        return $this->redirect('/');
+    }
+
+    public function actionClose($id)
+    {
+        $model = Servers::find()->where(['id' => $id])->one();
+
+        //exec('VBoxManage controlvm '. $model->clau .' poweroff');
+
+        Yii::$app->session->setFlash('success', 'Servidor apagat amb èxit!');
+
+        return $this->redirect('/');
     }
 
     /**

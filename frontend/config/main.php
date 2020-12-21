@@ -55,6 +55,8 @@ return [
 
                 'newserver' => 'site/newserver',
                 'site/deleteserver/<id:\d+>' => 'site/deleteserver',
+                'site/power/<id:\d+>' => 'site/power',
+                'site/close/<id:\d+>' => 'site/close',
 
                 'consultas' => 'site/quotes',
                 'consultas/<id:\d+>' => 'site/quote',
