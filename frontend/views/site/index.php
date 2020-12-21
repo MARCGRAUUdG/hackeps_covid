@@ -44,15 +44,17 @@ $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->
                     <h4>SO: <?= $pack->os ?> // RAM: <?=$pack->ram?> // CPU: <?=$pack->cores?> cores // HDD: <?=$pack->hdd?> // Conexió: <?=$pack->conection?></h4>
 
                     <div class="card card-<?= $colors[$categoryIndex % 4] ?> card-outline">
-                        <a class="d-block w-100" href="#collapse-faq-<?= $server['id'] ?>">
+                        <span class="d-block w-100" href="#collapse-faq-<?= $server['id'] ?>">
                             <div class="card-header">
                                 <h4 class="card-title w-100">
                                     <?= $server['clau'] ?>
                                 </h4>
                             </div>
-                        </a>
+                        </span>
                     </div>
-                    <?= Html::submitButton('Delete', ['class' => 'btn btn-danger btn-block']) ?>
+                    <div class="col-md-2 col-2">
+                        <?= Html::submitButton('Delete', ['class' => 'btn btn-danger btn-block']) ?>
+                    </div>
                     <br><hr>
                     <?php \yii\widgets\ActiveForm::end();?>
                 <?php endforeach ?>

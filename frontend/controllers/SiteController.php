@@ -94,20 +94,22 @@ class SiteController extends Controller
         if (Yii::$app->request->isPost)
         {
             $post = Yii::$app->request->post('Servers');
-            //print_r($post);
-            //exit;
 
+            $salida = shell_exec("sudo VBoxManage createvm --name 1_Ubuntu --ostype Ubuntu_64 --register");
+            $salida2 = shell_exec("sudo VBoxManage modifyvm 1_Ubuntu --memory 2048 --cpus 1 --vram 30 --graphicscontroller vmsvga --vrde on");
+            $salida3 = shell_exec("sudo VBoxManage modifyvm 1_Ubuntu --bridgeadapter1 'wlp1s0' --nic1 bridged");
+            $salida4 = shell_exec("sudo VBoxManage clonemedium disk /home/marc/Documents/BaseUbuntu.vdi /home/marc/Documents/fitxer_output.vdi --format vdi");
+            $salida5 = shell_exec("sudo VBoxManage storagectl 1_Ubuntu --name 'SATA Controller' --add sata --controller IntelAhci");
+            $salida6 = shell_exec("sudo VBoxManage storageattach 1_Ubuntu --storagectl 'SATA Controller' --port 0 --device 0 --type hdd --medium /home/marc/Documents/fitxer_output.vdi");
 
-            //$salida = shell_exec('pwd');
-            //echo "<pre>$salida</pre>";
-            //exit;
+            $newSalida = explode(" ",$salida);
 
             $model = new Servers();
             $model->client = Yii::$app->user->id;
             $model->pla = $post['pla'];
-            $model->clau = '123';
+            $model->clau = $newSalida[7];
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Servidor creat amb èxit!');
+                Yii::$app->session->setFlash('success', 'Servidor creat amb èxit!'.$salida);
             }
 
             else {

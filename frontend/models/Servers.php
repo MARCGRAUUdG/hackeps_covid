@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $client
  * @property int $pla
- * @property int|null $clau
+ * @property string|null $clau
  */
 class Servers extends \yii\db\ActiveRecord
 {
@@ -29,8 +29,9 @@ class Servers extends \yii\db\ActiveRecord
     {
         return [
             [['client'], 'required'],
-            [['client', 'pla', 'clau'], 'default', 'value' => null],
-            [['client', 'pla', 'clau'], 'integer'],
+            [['client', 'pla'], 'default', 'value' => null],
+            [['client', 'pla'], 'integer'],
+            [['clau'], 'string'],
         ];
     }
 
