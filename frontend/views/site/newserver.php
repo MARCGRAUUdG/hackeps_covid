@@ -84,7 +84,7 @@ $packL = \app\models\Pla::find()->where(['id' => 3])->one();
                         3 => 'Paquet L'
                     ],
                     ['prompt'=>'Selecciona un pla']
-                )->hint('Please enter your key');?>
+                );?>
             <?= Html::submitButton('Crear servidor', ['class' => 'btn btn-primary btn-block']) ?>
         </div>
     </div>
