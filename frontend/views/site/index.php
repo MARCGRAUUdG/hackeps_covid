@@ -52,45 +52,53 @@ $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->
                             </div>
                         </span>
                     </div>
-                    <div class="col-md-2 col-2">
-                        <?= Html::submitButton('Engegar VM', ['class' => 'btn btn-success btn-block']) ?>
-                        <?php \yii\widgets\ActiveForm::end();?>
-                        <?php
-                        $form = \yii\widgets\ActiveForm::begin(
-                            [
-                                'id' => 'deleteserver-form',
-                                'action' => 'site/deleteserver/' .$server['id'],
-                                'method' => 'post',
-                            ]
-                        );
-                        ?>
-                        <?= Html::submitButton('Obrir Remote Desktop', ['class' => 'btn btn-success btn-block']) ?>
-                        <?php \yii\widgets\ActiveForm::end();?>
-                        <?php
-                        $form = \yii\widgets\ActiveForm::begin(
-                            [
-                                'id' => 'deleteserver-form',
-                                'action' => 'site/close/' .$server['id'],
-                                'method' => 'post',
-                            ]
-                        );
-                        ?>
-                        <?= Html::submitButton('Tancar VM', ['class' => 'btn btn-warning btn-block']) ?>
-                        <?php \yii\widgets\ActiveForm::end();?>
-                        <?php
-                        $form = \yii\widgets\ActiveForm::begin(
-                            [
-                                'id' => 'deleteserver-form',
-                                'action' => 'site/deleteserver/' .$server['id'],
-                                'method' => 'post',
-                            ]
-                        );
-                        ?>
-                        <?= Html::submitButton('Eliminar', ['class' => 'btn btn-danger btn-block']) ?>
-                        <?php \yii\widgets\ActiveForm::end();?>
+                    <div class="row">
+                        <div class="col-md-4 col-4">
+                            <?= Html::submitButton('Engegar VM', ['class' => 'btn btn-success btn-block']) ?>
+                            <br>
+                            <?php \yii\widgets\ActiveForm::end();?>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <?php
+                            $form = \yii\widgets\ActiveForm::begin(
+                                [
+                                    'id' => 'deleteserver-form',
+                                    'action' => 'site/deleteserver/' .$server['id'],
+                                    'method' => 'post',
+                                ]
+                            );
+                            ?>
+                            <?= Html::submitButton('Obrir Remote Desktop', ['class' => 'btn btn-success btn-block']) ?>
+                            <?php \yii\widgets\ActiveForm::end();?>
+                        </div>
                     </div>
-                    <div class="col-md-2 col-2">
-
+                    <div class="row">
+                        <div class="col-md-4 col-4">
+                            <?php
+                            $form = \yii\widgets\ActiveForm::begin(
+                                [
+                                    'id' => 'deleteserver-form',
+                                    'action' => 'site/close/' .$server['id'],
+                                    'method' => 'post',
+                                ]
+                            );
+                            ?>
+                            <?= Html::submitButton('Tancar VM', ['class' => 'btn btn-warning btn-block']) ?>
+                            <?php \yii\widgets\ActiveForm::end();?>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <?php
+                            $form = \yii\widgets\ActiveForm::begin(
+                                [
+                                    'id' => 'deleteserver-form',
+                                    'action' => 'site/deleteserver/' .$server['id'],
+                                    'method' => 'post',
+                                ]
+                            );
+                            ?>
+                            <?= Html::submitButton('Eliminar', ['class' => 'btn btn-danger btn-block']) ?>
+                            <?php \yii\widgets\ActiveForm::end();?>
+                        </div>
                     </div>
                     <br><hr>
 

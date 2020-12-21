@@ -121,7 +121,7 @@ class SiteController extends Controller
             $model->pla = $post['pla'];
             $model->clau = 'UUID de la màquina';
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Servidor creat amb èxit!'.$salida);
+                Yii::$app->session->setFlash('success', 'Servidor creat amb èxit!'/*.$salida*/);
             }
 
             else {
