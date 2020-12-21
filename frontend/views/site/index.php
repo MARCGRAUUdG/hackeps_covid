@@ -32,7 +32,7 @@ $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->
                     <?php
                     $form = \yii\widgets\ActiveForm::begin(
                         [
-                            'id' => 'deleteserver-form',
+                            'id' => 'open-form',
                             'action' => 'site/power/' .$server['id'],
                             'method' => 'post',
                         ]
@@ -62,7 +62,7 @@ $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->
                             <?php
                             $form = \yii\widgets\ActiveForm::begin(
                                 [
-                                    'id' => 'deleteserver-form',
+                                    'id' => 'asd-form',
                                     'action' => 'site/deleteserver/' .$server['id'],
                                     'method' => 'post',
                                 ]
@@ -77,7 +77,7 @@ $userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->
                             <?php
                             $form = \yii\widgets\ActiveForm::begin(
                                 [
-                                    'id' => 'deleteserver-form',
+                                    'id' => 'close-form',
                                     'action' => 'site/close/' .$server['id'],
                                     'method' => 'post',
                                 ]
