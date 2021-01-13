@@ -8,7 +8,7 @@ $colors = ['success', 'info', 'warning', 'danger'];
 $categoryCount = 4;
 $newColors = [];
 
-$this->title = 'Servidores';
+$this->title = 'Informes';
 $this->params['breadcrumbs'][] = $this->title;
 
 $reports = \frontend\models\Reports::find()->where(['user_id' => Yii::$app->user->id])->asArray()->all();
