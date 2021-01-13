@@ -2,109 +2,113 @@
 
 use yii\helpers\Html;
 
-$colors = ['success', 'info', 'warning', 'danger'];
+$this->title = 'Ciberseguridad Grau';
 
-$categoryCount = 4;
-$newColors = [];
-
-while (count($newColors) <= $categoryCount) {
-    $newColors = array_merge($newColors, $colors);
-}
-
-$this->title = 'Servidores';
-$this->params['breadcrumbs'][] = $this->title;
-
-$userServers = \app\models\Servers::find()->where(['client' => Yii::$app->user->id])->asArray()->all();
 
 
 ?>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12" id="accordion">
-            <?php if (empty($userServers)): ?>
-                <div class="alert alert-info">
-                    <h5><i class="icon fas fa-info"></i> Ooops...</h5>
-                    No tens cap servidor comprat, si us plau ves a creau un nou servidor per comprar un pla.
-                </div>
-            <?php else: ?>
-                <?php $categoryIndex = 0 ?>
-                <?php foreach ($userServers as $server): ?>
-                    <?php
-                    $form = \yii\widgets\ActiveForm::begin(
-                        [
-                            'id' => 'open-form',
-                            'action' => 'site/power/' .$server['id'],
-                            'method' => 'post',
-                        ]
-                    );
-                    ?>
-                    <?php
-                        $pack = \app\models\Pla::find()->where(['id' => $server['pla']])->one();
-                    ?>
-                    <h4>SO: <?= $pack->os ?> // RAM: <?=$pack->ram?> // CPU: <?=$pack->cores?> cores // HDD: <?=$pack->hdd?> // Conexió: <?=$pack->conection?></h4>
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+<style>
+    body, html {
+        height: 100%;
+        font-family: "Inconsolata", sans-serif;
+    }
 
-                    <div class="card card-<?= $colors[$categoryIndex % 4] ?> card-outline">
-                        <span class="d-block w-100" href="#collapse-faq-<?= $server['id'] ?>">
-                            <div class="card-header">
-                                <h4 class="card-title w-100">
-                                    <?= $server['clau'] ?>
-                                </h4>
-                            </div>
-                        </span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-4">
-                            <?= Html::submitButton('Engegar VM', ['class' => 'btn btn-success btn-block']) ?>
-                            <br>
-                            <?php \yii\widgets\ActiveForm::end();?>
-                        </div>
-                        <div class="col-md-4 col-4">
-                            <?php
-                            $form = \yii\widgets\ActiveForm::begin(
-                                [
-                                    'id' => 'asd-form',
-                                    'action' => 'site/deleteserver/' .$server['id'],
-                                    'method' => 'post',
-                                ]
-                            );
-                            ?>
-                            <?= Html::submitButton('Obrir Remote Desktop', ['class' => 'btn btn-success btn-block']) ?>
-                            <?php \yii\widgets\ActiveForm::end();?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-4">
-                            <?php
-                            $form = \yii\widgets\ActiveForm::begin(
-                                [
-                                    'id' => 'close-form',
-                                    'action' => 'site/close/' .$server['id'],
-                                    'method' => 'post',
-                                ]
-                            );
-                            ?>
-                            <?= Html::submitButton('Tancar VM', ['class' => 'btn btn-warning btn-block']) ?>
-                            <?php \yii\widgets\ActiveForm::end();?>
-                        </div>
-                        <div class="col-md-4 col-4">
-                            <?php
-                            $form = \yii\widgets\ActiveForm::begin(
-                                [
-                                    'id' => 'deleteserver-form',
-                                    'action' => 'site/deleteserver/' .$server['id'],
-                                    'method' => 'post',
-                                ]
-                            );
-                            ?>
-                            <?= Html::submitButton('Eliminar', ['class' => 'btn btn-danger btn-block']) ?>
-                            <?php \yii\widgets\ActiveForm::end();?>
-                        </div>
-                    </div>
-                    <br><hr>
+    .menu {
+        display: none;
+    }
+</style>
+<body>
+<!-- Add a background color and large text to the whole page -->
+<div class="w3-sand w3-grayscale w3-large">
 
-                <?php endforeach ?>
-            <?php endif ?>
+    <!-- About Container -->
+    <div class="w3-container" id="about">
+        <div class="w3-content" style="max-width:700px">
+            <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">SOBRE NOSOTROS</span></h5>
+            <p>Somos un proyecto joven encargado de aportar mayor seguridad a las pequeñas y grandes empresas que nos rodean. Nuestro fin es encontrar todas las vulnerabilidades de nuestros clientes para que sufrir un ataque no sea la peor de sus pesadillas.</p>
+            <p>Nuestra metodología es simple, nos basamos en los dos tipos de auditorias que nos han dado más resultado profesionalmente.</p>
+            <div class="w3-panel w3-leftbar w3-light-grey">
+                <p><i>Cuando la informática funciona bien, va MUY bien, pero cuando falla puede llegar a ser un gran desastre</i></p>
+                <p>Ciberseguridad Grau</p>
+            </div>
+            <img src="/images/cybersecurity.jpeg" style="width:100%;max-width:1000px" class="w3-margin-top">
+            <p><strong>Disponibilidad:</strong> cada día de 8:00 a 18:00.</p>
         </div>
     </div>
+
+    <!-- Menu Container -->
+    <div class="w3-container" id="menu">
+        <div class="w3-content" style="max-width:700px">
+
+            <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">LOS PLANES</span></h5>
+
+            <div class="w3-row w3-center w3-card w3-padding">
+                <a href="javascript:void(0)" onclick="openMenu(event, 'Eat');" id="myLink">
+                    <div class="w3-col s6 tablink">Pentesting</div>
+                </a>
+                <a href="javascript:void(0)" onclick="openMenu(event, 'Drinks');">
+                    <div class="w3-col s6 tablink">Auditoria interna</div>
+                </a>
+            </div>
+
+            <div id="Eat" class="w3-container menu w3-padding-48 w3-card">
+                <h5>Test de intrusión</h5>
+                <p class="w3-text-grey">Durante un margen de tiempo según el cliente, aplicaremos una de las más efectivas metodologías de seguridad ofensiva: nos haremos pasar por un atacante para encontrar las vulnerabilidades posibles des del exterior.</p><br>
+
+                <h5>Margen de tiempo según cliente</h5>
+                <p class="w3-text-grey">El cliente puede escoger el tiempo de ataque a su empresa.</p><br>
+
+                <h5>Múltiples objetivos</h5>
+                <p class="w3-text-grey">El cliente puede seleccionar los servidores que quiera que hagamos el test de intrusión, sean servidores web, de correo etc.</p><br>
+
+                <h5>Mejores herramientas</h5>
+                <p class="w3-text-grey">Nuestro equipo dispone de las mejores herramientas de hacking!</p><br>
+            </div>
+
+            <div id="Drinks" class="w3-container menu w3-padding-48 w3-card">
+                <h5>Auditoria interna de seguridad informática</h5>
+                <p class="w3-text-grey">Disponemos de un protocolo de ciberseguridad personalizado y óptimo para la máxima seguridad. Pero también utilizamos protocolos conocidos como ISO a petición del cliente.</p><br>
+
+                <h5>Checklist y análisis de riesgos</h5>
+                <p class="w3-text-grey">Nuestro protocolo personalizado se compone por un checklist adaptado al cliente así como un análisis de riesgos que nos pueden informar sobre puntos débiles y prioridad de reparación de las vulnerabilidades.</p><br>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact/Area Container -->
+    <div class="w3-container" id="where" style="padding-bottom:32px;">
+        <div class="w3-content" style="max-width:700px">
+            <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">CONTACTA CON NOSOTROS</span></h5>
+            <p>Nos puedes contactar llamando al 999999999 o enviando un correo a info@ciberseguridad-grau.com</p>
+        </div>
+    </div>
+
+    <!-- End page content -->
 </div>
 
+<script>
+    // Tabbed Menu
+    function openMenu(evt, menuName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("menu");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-dark-grey", "");
+        }
+        document.getElementById(menuName).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-dark-grey";
+    }
+    document.getElementById("myLink").click();
+</script>
+
+</body>
+</html>

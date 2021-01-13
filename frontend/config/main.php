@@ -58,6 +58,9 @@ return [
                 'site/power/<id:\d+>' => 'site/power',
                 'site/close/<id:\d+>' => 'site/close',
 
+                'informes' => 'site/informes',
+                'site/download' => 'site/download',
+
                 'consultas' => 'site/quotes',
                 'consultas/<id:\d+>' => 'site/quote',
                 'POST consultas/<id:\d+>/mensaje' => 'site/quote-message',

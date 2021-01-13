@@ -19,6 +19,7 @@ use http\Client;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -87,6 +88,11 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionInformes()
+    {
+        return $this->render('userReports');
     }
 
     public function actionNewserver()
@@ -659,5 +665,66 @@ class SiteController extends Controller
         {
             return '';
         }
+    }
+    private function downloadFile($dir, $file, $extensions=[])
+    {
+        //Si el directorio existe
+        if (is_dir($dir))
+        {
+            //Ruta absoluta del archivo
+            $path = $dir.$file;
+
+            //Si el archivo existe
+            if (is_file($path))
+            {
+                //Obtener información del archivo
+                $file_info = pathinfo($path);
+                //Obtener la extensión del archivo
+                $extension = $file_info["extension"];
+
+                if (is_array($extensions))
+                {
+                    //Si el argumento $extensions es un array
+                    //Comprobar las extensiones permitidas
+                    foreach($extensions as $e)
+                    {
+                        //Si la extension es correcta
+                        if ($e === $extension)
+                        {
+                            //Procedemos a descargar el archivo
+                            // Definir headers
+                            $size = filesize($path);
+                            header("Content-Type: application/force-download");
+                            header("Content-Disposition: attachment; filename=$file");
+                            header("Content-Transfer-Encoding: binary");
+                            header("Content-Length: " . $size);
+                            // Descargar archivo
+                            readfile($path);
+                            //Correcto
+                            return true;
+                        }
+                    }
+                }
+
+            }
+        }
+        //Ha ocurrido un error al descargar el archivo
+        return false;
+    }
+
+    public function actionDownload()
+    {
+        if (Yii::$app->request->get("file"))
+        {
+            //Si el archivo no se ha podido descargar
+            //downloadFile($dir, $file, $extensions=[])
+            if (!$this->downloadFile("asd/", Html::encode($_GET["file"]), ["pdf", "txt", "doc"]))
+            {
+                //Mensaje flash para mostrar el error
+                Yii::$app->session->setFlash("errordownload");
+            }
+        }
+
+        return $this->render("userReports");
     }
 }
