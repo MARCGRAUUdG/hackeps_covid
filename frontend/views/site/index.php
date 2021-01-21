@@ -35,7 +35,6 @@ $this->title = 'Ciberseguridad Grau';
             <p>Nuestra metodología es simple, nos basamos en los dos tipos de auditorias que nos han dado más resultado profesionalmente.</p>
             <div class="w3-panel w3-leftbar w3-light-grey">
                 <p><i>Cuando la informática funciona bien, va MUY bien, pero cuando falla puede llegar a ser un gran desastre</i></p>
-                <p>Ciberseguridad Grau</p>
             </div>
             <img src="/images/cybersecurity.jpeg" style="width:100%;max-width:1000px" class="w3-margin-top">
             <p><strong>Disponibilidad:</strong> cada día de 8:00 a 18:00.</p>
@@ -73,10 +72,10 @@ $this->title = 'Ciberseguridad Grau';
 
             <div id="Drinks" class="w3-container menu w3-padding-48 w3-card">
                 <h5>Auditoria interna de seguridad informática</h5>
-                <p class="w3-text-grey">Disponemos de un protocolo de ciberseguridad personalizado y óptimo para la máxima seguridad. Pero también utilizamos protocolos conocidos como ISO a petición del cliente.</p><br>
+                <p class="w3-text-grey">Disponemos de un protocolo de ciberseguridad personalizado y óptimo para la máxima seguridad. Pero también utilizamos protocolos conocidos como ISO 27000 a petición del cliente.</p><br>
 
                 <h5>Checklist y análisis de riesgos</h5>
-                <p class="w3-text-grey">Nuestro protocolo personalizado se compone por un checklist adaptado al cliente así como un análisis de riesgos que nos pueden informar sobre puntos débiles y prioridad de reparación de las vulnerabilidades.</p><br>
+                <p class="w3-text-grey">Nuestro protocolo personalizado consiste en un checklist adaptado al cliente así como un análisis de riesgos que nos pueden informar sobre puntos débiles y prioridad de reparación de las vulnerabilidades.</p><br>
             </div>
         </div>
     </div>

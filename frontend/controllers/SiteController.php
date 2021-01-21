@@ -12,6 +12,7 @@ use frontend\models\FaqCategories;
 use frontend\models\Provincia;
 use frontend\models\Quote;
 use frontend\models\QuoteMessages;
+use frontend\models\Reports;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\search\QuoteSearch;
 use frontend\models\VerifyEmailForm;
@@ -714,17 +715,16 @@ class SiteController extends Controller
 
     public function actionDownload()
     {
-        if (Yii::$app->request->get("file"))
-        {
-            //Si el archivo no se ha podido descargar
-            //downloadFile($dir, $file, $extensions=[])
-            if (!$this->downloadFile("asd/", Html::encode($_GET["file"]), ["pdf", "txt", "doc"]))
-            {
-                //Mensaje flash para mostrar el error
-                Yii::$app->session->setFlash("errordownload");
+        if (Reports::find()->where(['user_id' => Yii::$app->user->id, 'report_name' => $_GET["file"]])->exists()) {
+            if (Yii::$app->request->get("file")) {
+                //Si el archivo no se ha podido descargar
+                //downloadFile($dir, $file, $extensions=[])
+                if (!$this->downloadFile("asd/", Html::encode($_GET["file"]), ["pdf", "txt", "doc"])) {
+                    //Mensaje flash para mostrar el error
+                    Yii::$app->session->setFlash("errordownload");
+                }
             }
         }
-
         return $this->render("userReports");
     }
 }
